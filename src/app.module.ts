@@ -8,8 +8,8 @@ import { TypeModule } from './type/type.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [AuthModule, MaterialModule, BinModule, TypeModule, UserModule],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [AuthModule, MaterialModule, BinModule, TypeModule, UserModule],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {}
