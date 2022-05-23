@@ -7,6 +7,7 @@ export enum TopLevelCategory {
 }
 
 export class TypeModel {
+  _id: string;
   title: string;
   category: TopLevelCategory;
   synonyms?: string[];
