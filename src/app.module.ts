@@ -6,9 +6,10 @@ import { MaterialModule } from './material/material.module';
 import { BinModule } from './bin/bin.module';
 import { TypeModule } from './type/type.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-	imports: [AuthModule, MaterialModule, BinModule, TypeModule, UserModule],
+	imports: [ConfigModule.forRoot(), AuthModule, MaterialModule, BinModule, TypeModule, UserModule],
 	controllers: [AppController],
 	providers: [AppService],
 })
