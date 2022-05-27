@@ -6,12 +6,12 @@ import { RecyclePointDocument, RecyclePointModel } from './recycle-point.model';
 
 @Injectable()
 export class RecyclePointService {
-	constructor(
-		@InjectModel(RecyclePointModel.name) private recyclePointModel: Model<RecyclePointDocument>
-	) {}
+  constructor(
+    @InjectModel(RecyclePointModel.name) private recyclePointModel: Model<RecyclePointDocument>
+  ) {}
 
-	async create(createRecyclePointDto: CreateRecyclePointDto): Promise<RecyclePointModel> {
-		const createdModel = new this.recyclePointModel(createRecyclePointDto);
-		return createdModel.save();
-	}
+  async create(createRecyclePointDto: CreateRecyclePointDto): Promise<RecyclePointModel> {
+    const createdModel = new this.recyclePointModel(createRecyclePointDto);
+    return createdModel.save();
+  }
 }

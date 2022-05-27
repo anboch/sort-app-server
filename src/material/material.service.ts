@@ -6,14 +6,14 @@ import { MaterialDocument, MaterialModel } from './material.model';
 
 @Injectable()
 export class MaterialService {
-	constructor(@InjectModel(MaterialModel.name) private materialModel: Model<MaterialDocument>) {}
+  constructor(@InjectModel(MaterialModel.name) private materialModel: Model<MaterialDocument>) {}
 
-	async create(createMaterialDto: CreateMaterialDto): Promise<MaterialModel> {
-		const createdModel = new this.materialModel(createMaterialDto);
-		return createdModel.save();
-	}
+  async create(createMaterialDto: CreateMaterialDto): Promise<MaterialModel> {
+    const createdModel = new this.materialModel(createMaterialDto);
+    return createdModel.save();
+  }
 
-	async findAll(): Promise<MaterialModel[]> {
-		return this.materialModel.find().exec();
-	}
+  async findAll(): Promise<MaterialModel[]> {
+    return this.materialModel.find().exec();
+  }
 }

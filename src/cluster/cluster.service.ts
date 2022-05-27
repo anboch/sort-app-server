@@ -6,10 +6,10 @@ import { CreateClusterDto } from './dto/create-cluster.dto';
 
 @Injectable()
 export class ClusterService {
-	constructor(@InjectModel(ClusterModel.name) private clusterModel: Model<ClusterDocument>) {}
+  constructor(@InjectModel(ClusterModel.name) private clusterModel: Model<ClusterDocument>) {}
 
-	async create(createClusterDto: CreateClusterDto): Promise<ClusterModel> {
-		const createdModel = new this.clusterModel(createClusterDto);
-		return createdModel.save();
-	}
+  async create(createClusterDto: CreateClusterDto): Promise<ClusterModel> {
+    const createdModel = new this.clusterModel(createClusterDto);
+    return createdModel.save();
+  }
 }

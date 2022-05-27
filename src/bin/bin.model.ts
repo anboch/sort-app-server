@@ -8,20 +8,20 @@ export type BinDocument = BinModel & Document;
 
 @Schema({ collection: collectionNames.BIN })
 export class BinModel {
-	_id: string;
+  _id: string;
 
-	@Prop()
-	title: string;
+  @Prop()
+  title: string;
 
-	@Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE })
-	type: TypeModel;
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE })
+  type: TypeModel;
 
-	@Prop({
-		required: true,
-		type: mongoose.Schema.Types.ObjectId,
-		ref: collectionNames.RECYCLE_POINT,
-	})
-	recyclePoint: RecyclePointModel;
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: collectionNames.RECYCLE_POINT,
+  })
+  recyclePoint: RecyclePointModel;
 }
 
 export const BinSchema = SchemaFactory.createForClass(BinModel);

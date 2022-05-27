@@ -14,23 +14,23 @@ import { ClusterModule } from './cluster/cluster.module';
 import { CategoryModule } from './category/category.module';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot(),
-		MongooseModule.forRootAsync({
-			imports: [ConfigModule],
-			useFactory: getMongoConfig,
-			inject: [ConfigService],
-		}),
-		AuthModule,
-		MaterialModule,
-		BinModule,
-		TypeModule,
-		UserModule,
-		RecyclePointModule,
-		ClusterModule,
-		CategoryModule,
-	],
-	controllers: [AppController],
-	providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: getMongoConfig,
+      inject: [ConfigService],
+    }),
+    AuthModule,
+    MaterialModule,
+    BinModule,
+    TypeModule,
+    UserModule,
+    RecyclePointModule,
+    ClusterModule,
+    CategoryModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

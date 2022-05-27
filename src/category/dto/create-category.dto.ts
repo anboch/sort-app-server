@@ -1,3 +1,3 @@
 export class CreateCategoryDto {
-	title: string;
+  title: string;
 }

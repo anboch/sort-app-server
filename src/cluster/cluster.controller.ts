@@ -5,10 +5,10 @@ import { CreateClusterDto } from './dto/create-cluster.dto';
 
 @Controller('cluster')
 export class ClusterController {
-	constructor(private readonly clusterService: ClusterService) {}
+  constructor(private readonly clusterService: ClusterService) {}
 
-	@Post('create')
-	async create(@Body() dto: CreateClusterDto): Promise<ClusterModel> {
-		return this.clusterService.create(dto);
-	}
+  @Post('create')
+  async create(@Body() dto: CreateClusterDto): Promise<ClusterModel> {
+    return this.clusterService.create(dto);
+  }
 }

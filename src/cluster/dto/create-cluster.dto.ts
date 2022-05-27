@@ -1,4 +1,4 @@
 export class CreateClusterDto {
-	title: string;
-	category: string;
+  title: string;
+  category: string;
 }

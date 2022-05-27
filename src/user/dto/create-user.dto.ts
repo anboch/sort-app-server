@@ -1,5 +1,5 @@
 export class CreateUserDto {
-	isAdmin: boolean;
-	login: string;
-	password: string;
+  isAdmin: boolean;
+  login: string;
+  password: string;
 }

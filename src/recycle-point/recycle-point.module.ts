@@ -5,10 +5,10 @@ import { RecyclePointModel, RecyclePointSchema } from './recycle-point.model';
 import { RecyclePointService } from './recycle-point.service';
 
 @Module({
-	imports: [
-		MongooseModule.forFeature([{ name: RecyclePointModel.name, schema: RecyclePointSchema }]),
-	],
-	controllers: [RecyclePointController],
-	providers: [RecyclePointService],
+  imports: [
+    MongooseModule.forFeature([{ name: RecyclePointModel.name, schema: RecyclePointSchema }]),
+  ],
+  controllers: [RecyclePointController],
+  providers: [RecyclePointService],
 })
 export class RecyclePointModule {}

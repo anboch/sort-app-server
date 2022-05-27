@@ -1,4 +1,4 @@
 export class CreateTypeDto {
-	title: string;
-	cluster: string;
+  title: string;
+  cluster: string;
 }

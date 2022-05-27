@@ -5,8 +5,8 @@ import { TypeModel, TypeSchema } from './type.model';
 import { TypeService } from './type.service';
 
 @Module({
-	imports: [MongooseModule.forFeature([{ name: TypeModel.name, schema: TypeSchema }])],
-	controllers: [TypeController],
-	providers: [TypeService],
+  imports: [MongooseModule.forFeature([{ name: TypeModel.name, schema: TypeSchema }])],
+  controllers: [TypeController],
+  providers: [TypeService],
 })
 export class TypeModule {}

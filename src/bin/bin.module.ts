@@ -5,8 +5,8 @@ import { BinModel, BinSchema } from './bin.model';
 import { BinService } from './bin.service';
 
 @Module({
-	imports: [MongooseModule.forFeature([{ name: BinModel.name, schema: BinSchema }])],
-	controllers: [BinController],
-	providers: [BinService],
+  imports: [MongooseModule.forFeature([{ name: BinModel.name, schema: BinSchema }])],
+  controllers: [BinController],
+  providers: [BinService],
 })
 export class BinModule {}

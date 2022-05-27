@@ -6,10 +6,10 @@ import { CreateBinDto } from './dto/create-bin.dto';
 
 @Injectable()
 export class BinService {
-	constructor(@InjectModel(BinModel.name) private binModel: Model<BinDocument>) {}
+  constructor(@InjectModel(BinModel.name) private binModel: Model<BinDocument>) {}
 
-	async create(createBinDto: CreateBinDto): Promise<BinModel> {
-		const createdModel = new this.binModel(createBinDto);
-		return createdModel.save();
-	}
+  async create(createBinDto: CreateBinDto): Promise<BinModel> {
+    const createdModel = new this.binModel(createBinDto);
+    return createdModel.save();
+  }
 }

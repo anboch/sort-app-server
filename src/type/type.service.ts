@@ -6,10 +6,10 @@ import { TypeModel, TypeDocument } from './type.model';
 
 @Injectable()
 export class TypeService {
-	constructor(@InjectModel(TypeModel.name) private typeModel: Model<TypeDocument>) {}
+  constructor(@InjectModel(TypeModel.name) private typeModel: Model<TypeDocument>) {}
 
-	async create(createTypeDto: CreateTypeDto): Promise<TypeModel> {
-		const createdModel = new this.typeModel(createTypeDto);
-		return createdModel.save();
-	}
+  async create(createTypeDto: CreateTypeDto): Promise<TypeModel> {
+    const createdModel = new this.typeModel(createTypeDto);
+    return createdModel.save();
+  }
 }

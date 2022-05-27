@@ -7,13 +7,13 @@ export type ClusterDocument = ClusterModel & Document;
 
 @Schema({ collection: collectionNames.CLUSTER })
 export class ClusterModel {
-	_id: string;
+  _id: string;
 
-	@Prop({ required: true, unique: true })
-	title: string;
+  @Prop({ required: true, unique: true })
+  title: string;
 
-	@Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CATEGORY })
-	category: CategoryModel;
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CATEGORY })
+  category: CategoryModel;
 }
 
 export const ClusterSchema = SchemaFactory.createForClass(ClusterModel);

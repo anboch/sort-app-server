@@ -6,10 +6,10 @@ import { UserModel, UserDocument } from './user.model';
 
 @Injectable()
 export class UserService {
-	constructor(@InjectModel(UserModel.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(UserModel.name) private userModel: Model<UserDocument>) {}
 
-	async create(createUserDto: CreateUserDto): Promise<UserModel> {
-		const createdModel = new this.userModel(createUserDto);
-		return createdModel.save();
-	}
+  async create(createUserDto: CreateUserDto): Promise<UserModel> {
+    const createdModel = new this.userModel(createUserDto);
+    return createdModel.save();
+  }
 }

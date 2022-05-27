@@ -1,5 +1,5 @@
 export class CreateBinDto {
-	title?: string;
-	type: string;
-	recyclePoint: string;
+  title?: string;
+  type: string;
+  recyclePoint: string;
 }

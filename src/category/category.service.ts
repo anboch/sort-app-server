@@ -6,10 +6,10 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Injectable()
 export class CategoryService {
-	constructor(@InjectModel(CategoryModel.name) private categoryModel: Model<CategoryDocument>) {}
+  constructor(@InjectModel(CategoryModel.name) private categoryModel: Model<CategoryDocument>) {}
 
-	async create(createCategoryDto: CreateCategoryDto): Promise<CategoryModel> {
-		const createdModel = new this.categoryModel(createCategoryDto);
-		return createdModel.save();
-	}
+  async create(createCategoryDto: CreateCategoryDto): Promise<CategoryModel> {
+    const createdModel = new this.categoryModel(createCategoryDto);
+    return createdModel.save();
+  }
 }

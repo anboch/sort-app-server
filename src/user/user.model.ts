@@ -7,22 +7,22 @@ export type UserDocument = UserModel & Document;
 
 @Schema({ collection: collectionNames.USER })
 export class UserModel {
-	_id: string;
+  _id: string;
 
-	@Prop({ required: true })
-	isAdmin: boolean;
+  @Prop({ required: true })
+  isAdmin: boolean;
 
-	@Prop({ required: true, unique: true })
-	login: string;
+  @Prop({ required: true, unique: true })
+  login: string;
 
-	@Prop({ required: true })
-	passwordHash: string;
+  @Prop({ required: true })
+  passwordHash: string;
 
-	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.BIN }] })
-	bins: BinModel[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.BIN }] })
+  bins: BinModel[];
 
-	@Prop()
-	address: string;
+  @Prop()
+  address: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
