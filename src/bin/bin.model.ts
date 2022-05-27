@@ -13,10 +13,14 @@ export class BinModel {
 	@Prop()
 	title: string;
 
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE })
+	@Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE })
 	type: TypeModel;
 
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RECYCLE_POINT })
+	@Prop({
+		required: true,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: collectionNames.RECYCLE_POINT,
+	})
 	recyclePoint: RecyclePointModel;
 }
 

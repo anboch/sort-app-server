@@ -11,9 +11,11 @@ export class MaterialModel {
 	@Prop({ required: true, unique: true })
 	title: string;
 
-	// TODO Link to type
-	// @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }] })
-	// similarMaterials: TypeModel[];
+	@Prop({
+		required: true,
+		type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }],
+	})
+	types: TypeModel[];
 
 	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.MATERIAL }] })
 	similarMaterials: MaterialModel[];

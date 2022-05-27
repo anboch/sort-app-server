@@ -12,9 +12,8 @@ export class RecyclePointModel {
 	@Prop({ required: true })
 	title: string;
 
-	// TODO Link to type
-	// @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.MATERIAL }] })
-	// similarMaterials: MaterialModel[];
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }] })
+	types: TypeModel[];
 
 	@Prop()
 	description: string;

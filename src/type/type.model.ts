@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { ClusterModel } from 'src/cluster/cluster.model';
 import { collectionNames } from 'src/configs/mongo.config';
 
 export type TypeDocument = TypeModel & Document;
@@ -11,9 +12,8 @@ export class TypeModel {
 	@Prop({ required: true, unique: true })
 	title: string;
 
-	// TODO Link to cluster
-	// @Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CLUSTER })
-	// cluster: ClusterModel;
+	@Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CLUSTER })
+	cluster: ClusterModel;
 }
 
 export const TypeSchema = SchemaFactory.createForClass(TypeModel);

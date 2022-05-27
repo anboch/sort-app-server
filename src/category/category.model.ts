@@ -13,11 +13,3 @@ export class CategoryModel {
 }
 
 export const CategorySchema = SchemaFactory.createForClass(CategoryModel);
-
-// export enum TopLevelCategory {
-// 	WastePaper,
-// 	Glass,
-// 	Plastic,
-// 	Wood,
-// 	Other,
-// }
