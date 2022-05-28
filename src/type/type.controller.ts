@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { TypeModel } from './type.model';
 import { TypeService } from './type.service';
@@ -7,6 +17,7 @@ import { TypeService } from './type.service';
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateTypeDto): Promise<TypeModel> {
     return this.typeService.create(dto);

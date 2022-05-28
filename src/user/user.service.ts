@@ -9,6 +9,7 @@ export class UserService {
   constructor(@InjectModel(UserModel.name) private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserModel> {
+    // TODO cash password
     const createdModel = new this.userModel(createUserDto);
     return createdModel.save();
   }

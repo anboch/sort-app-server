@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { MaterialModel } from './material.model';
 import { MaterialService } from './material.service';
@@ -7,6 +17,7 @@ import { MaterialService } from './material.service';
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateMaterialDto): Promise<MaterialModel> {
     return this.materialService.create(dto);
