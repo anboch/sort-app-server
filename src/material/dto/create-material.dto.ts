@@ -1,8 +1,9 @@
 export class CreateMaterialDto {
-  title: string;
-  types: string[];
-  similarMaterials?: string[];
+  titles: string[];
+  typeIDs: string[];
+  similarMaterialIDs?: string[];
   description?: string;
   images?: string[];
-  synonyms?: string[];
+  categoryID: string;
+  clusterID?: string;
 }

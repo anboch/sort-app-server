@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { collectionNames } from 'src/configs/mongo.config';
-import { TypeModel } from 'src/type/type.model';
 
 export type RecyclePointDocument = RecyclePointModel & Document;
 
@@ -11,9 +10,6 @@ export class RecyclePointModel {
 
   @Prop({ required: true })
   title: string;
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }] })
-  types: TypeModel[];
 
   @Prop()
   description: string;

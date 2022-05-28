@@ -1,6 +1,5 @@
 export class CreateRecyclePointDto {
   title: string;
-  types?: string[];
-  address?: string[];
+  address?: string;
   description?: string;
 }

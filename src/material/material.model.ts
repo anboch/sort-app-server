@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { CategoryModel } from 'src/category/category.model';
+import { ClusterModel } from 'src/cluster/cluster.model';
 import { collectionNames } from 'src/configs/mongo.config';
 import { TypeModel } from 'src/type/type.model';
 
@@ -8,17 +10,21 @@ export type MaterialDocument = MaterialModel & Document;
 export class MaterialModel {
   _id: string;
 
-  @Prop({ required: true, unique: true })
-  title: string;
+  @Prop({
+    required: true,
+    type: [{ type: mongoose.Schema.Types.String }],
+    unique: true,
+  })
+  titles: string[];
 
   @Prop({
     required: true,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }],
   })
-  types: TypeModel[];
+  typeIDs: TypeModel[];
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.MATERIAL }] })
-  similarMaterials: MaterialModel[];
+  similarMaterialIDs: MaterialModel[];
 
   @Prop()
   description: string;
@@ -26,8 +32,11 @@ export class MaterialModel {
   @Prop([String])
   images: string[];
 
-  @Prop([String])
-  synonyms: string[];
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CATEGORY })
+  categoryID: CategoryModel;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CLUSTER })
+  clusterID: ClusterModel;
 }
 
 export const MaterialSchema = SchemaFactory.createForClass(MaterialModel);

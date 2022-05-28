@@ -9,6 +9,7 @@ export class MaterialService {
   constructor(@InjectModel(MaterialModel.name) private materialModel: Model<MaterialDocument>) {}
 
   async create(createMaterialDto: CreateMaterialDto): Promise<MaterialModel> {
+    // TODO check titles for uniqueness
     const createdModel = new this.materialModel(createMaterialDto);
     return createdModel.save();
   }
