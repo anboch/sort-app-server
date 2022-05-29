@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "name": "Debag",
+      "port": 9229,
+      "request": "attach",
+      "type": "node"
+    }
+  ]
+}
