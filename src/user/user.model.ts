@@ -10,8 +10,8 @@ export type UserDocument = UserModel & Document;
 export class UserModel {
   _id: string;
 
-  @Prop({ required: true })
-  isAdmin: boolean;
+  @Prop({ default: 'user' })
+  role: string;
 
   @Prop({ required: true, unique: true })
   login: string;

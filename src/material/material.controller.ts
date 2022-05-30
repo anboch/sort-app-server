@@ -3,13 +3,17 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateMaterialDto } from './dto/create-material.dto';
+import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialModel } from './material.model';
 import { MaterialService } from './material.service';
 
@@ -17,14 +21,19 @@ import { MaterialService } from './material.service';
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateMaterialDto): Promise<MaterialModel> {
     return this.materialService.create(dto);
   }
 
-  // @Get(':id')
-  // async get(@Param('id') id: string) {}
+  @Get(':id')
+  async getById(@Param('id') id: string): Promise<MaterialModel> {
+    const material = await this.materialService.findById(id);
+    if (!material) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    return material;
+  }
 
   // @Delete(':id')
   // async delete(@Param('id') id: string) {}
