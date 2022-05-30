@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { BinModel } from './bin.model';
 import { BinService } from './bin.service';
 import { CreateBinDto } from './dto/create-bin.dto';
@@ -11,5 +11,10 @@ export class BinController {
   @Post('create')
   async create(@Body() dto: CreateBinDto): Promise<BinModel> {
     return this.binService.create(dto);
+  }
+
+  @Get('all')
+  async getAll(@Body() dto: CreateBinDto): Promise<BinModel[]> {
+    return this.binService.findAll();
   }
 }

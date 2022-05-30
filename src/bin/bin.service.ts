@@ -12,4 +12,8 @@ export class BinService {
     const createdModel = new this.binModel(createBinDto);
     return createdModel.save();
   }
+
+  async findAll(): Promise<BinModel[]> {
+    return this.binModel.find().exec();
+  }
 }
