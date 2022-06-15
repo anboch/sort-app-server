@@ -11,4 +11,12 @@ export class CreateRecyclePointDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsString()
+  openingHours?: string;
+
+  @IsOptional()
+  @IsString()
+  site?: string;
 }

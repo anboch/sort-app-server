@@ -11,11 +11,17 @@ export class RecyclePointModel {
   @Prop({ required: true })
   title: string;
 
+  @Prop({ unique: true })
+  address: string;
+
   @Prop()
   description: string;
 
-  @Prop({ unique: true })
-  address: string;
+  @Prop()
+  openingHours: string;
+
+  @Prop()
+  site: string;
 }
 
 export const RecyclePointSchema = SchemaFactory.createForClass(RecyclePointModel);
