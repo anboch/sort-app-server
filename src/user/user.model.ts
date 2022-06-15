@@ -16,6 +16,9 @@ export class UserModel {
   @Prop({ required: true, unique: true })
   login: string;
 
+  @Prop()
+  name: string;
+
   @Prop({ required: true })
   passwordHash: string;
 
