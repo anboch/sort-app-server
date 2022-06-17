@@ -14,13 +14,13 @@ export class UserService {
   async create(authDto: AuthDto): Promise<UserModel> {
     const salt = await genSalt(10);
     const newUser = new this.userModel({
-      login: authDto.login,
+      email: authDto.email,
       passwordHash: await hash(authDto.password, salt),
     });
     return newUser.save();
   }
 
-  async find(login: string): Promise<UserModel | null> {
-    return this.userModel.findOne({ login }).exec();
+  async find(email: string): Promise<UserModel | null> {
+    return this.userModel.findOne({ email }).exec();
   }
 }

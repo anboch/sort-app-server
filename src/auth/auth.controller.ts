@@ -23,7 +23,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @Post('register')
   async register(@Body() authDto: AuthDto): Promise<UserModel> {
-    const oldUser = await this.userService.find(authDto.login);
+    const oldUser = await this.userService.find(authDto.email);
     if (oldUser) throw new BadRequestException(ALREADY_REGISTERED_ERROR);
     return this.userService.create(authDto);
   }
@@ -32,7 +32,7 @@ export class AuthController {
   @HttpCode(200)
   @Post('login')
   async login(@Body() authDto: AuthDto): Promise<{ access_token: string }> {
-    const { login } = await this.authService.validate(authDto.login, authDto.password);
-    return this.authService.signJWT(login);
+    const { email } = await this.authService.validate(authDto.email, authDto.password);
+    return this.authService.signJWT(email);
   }
 }

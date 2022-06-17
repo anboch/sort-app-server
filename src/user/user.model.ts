@@ -14,7 +14,7 @@ export class UserModel {
   role: string;
 
   @Prop({ required: true, unique: true })
-  login: string;
+  email: string;
 
   @Prop()
   name: string;

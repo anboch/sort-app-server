@@ -9,8 +9,8 @@ import { UserService } from 'src/user/user.service';
 export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
-  async validate(login: string, password: string): Promise<Pick<UserModel, 'login'>> {
-    const user = await this.userService.find(login);
+  async validate(email: string, password: string): Promise<Pick<UserModel, 'email'>> {
+    const user = await this.userService.find(email);
     if (!user) {
       throw new UnauthorizedException(USER_NOT_FOUND_ERROR);
     }
@@ -18,11 +18,11 @@ export class AuthService {
     if (!isCorrectPassword) {
       throw new UnauthorizedException(WRONG_PASSWORD_ERROR);
     }
-    return { login: user.login };
+    return { email: user.email };
   }
 
-  async signJWT(login: string): Promise<{ access_token: string }> {
-    const payload = { login };
+  async signJWT(email: string): Promise<{ access_token: string }> {
+    const payload = { email };
     // TODO add refresh
     return {
       access_token: await this.jwtService.signAsync(payload),
