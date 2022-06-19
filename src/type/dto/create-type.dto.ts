@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
 export class CreateTypeDto {
   @IsString()
@@ -7,5 +7,6 @@ export class CreateTypeDto {
 
   @IsArray()
   @IsString({ each: true })
+  @IsMongoId({ each: true })
   recyclePointIDs: string[];
 }

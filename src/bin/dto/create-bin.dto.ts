@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateBinDto {
   @IsOptional()
@@ -6,5 +6,6 @@ export class CreateBinDto {
   title?: string;
 
   @IsString()
+  @IsMongoId()
   typeID: string;
 }
