@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { BinModel } from 'src/bin/bin.model';
 import { collectionNames } from 'src/configs/mongo.config';
+import { Position } from 'src/maps/data.structure';
 import { RecyclePointModel } from 'src/recycle-point/recycle-point.model';
 
 export type UserDocument = UserModel & Document;
@@ -32,6 +33,9 @@ export class UserModel {
 
   @Prop()
   address: string;
+
+  @Prop()
+  position: Position;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

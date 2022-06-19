@@ -1,16 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { collectionNames } from 'src/configs/mongo.config';
+import { Position } from 'src/maps/data.structure';
 
 export type RecyclePointDocument = RecyclePointModel & Document;
-
-export class Position {
-  @Prop()
-  latitude: number;
-
-  @Prop()
-  longitude: number;
-}
 
 export enum Weekdays {
   Monday = 1,

@@ -1,7 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  ArrayMaxSize,
-  arrayMaxSize,
   ArrayMinSize,
   IsArray,
   IsBoolean,
@@ -17,7 +15,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { Position, Weekdays } from '../recycle-point.model';
+import { Weekdays } from '../recycle-point.model';
 
 class PositionDto {
   @IsLatitude()
