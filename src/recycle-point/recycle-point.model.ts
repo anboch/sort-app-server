@@ -6,10 +6,41 @@ export type RecyclePointDocument = RecyclePointModel & Document;
 
 export class Position {
   @Prop()
-  latitude: number
-  
+  latitude: number;
+
   @Prop()
-  longitude: number
+  longitude: number;
+}
+
+export enum Weekdays {
+  Monday = 1,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday,
+}
+
+class DailySchedule {
+  @Prop({ enum: Weekdays })
+  day: Weekdays;
+
+  @Prop()
+  periods: [{ start: string; end: string }];
+}
+
+class OpeningHours {
+  @Prop({ required: true })
+  dayAndNight: boolean;
+
+  @Prop()
+  weekSchedule: DailySchedule[];
+}
+
+class Contacts {
+  @Prop()
+  site: string;
 }
 
 @Schema({ collection: collectionNames.RECYCLE_POINT })
@@ -26,10 +57,10 @@ export class RecyclePointModel {
   description: string;
 
   @Prop()
-  openingHours: string;
+  openingHours: OpeningHours;
 
   @Prop()
-  site: string;
+  contacts: Contacts;
 
   @Prop()
   position: Position;

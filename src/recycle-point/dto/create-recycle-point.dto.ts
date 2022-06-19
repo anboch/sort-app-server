@@ -1,15 +1,66 @@
 import { Type } from 'class-transformer';
-import { IsDefined, IsLatitude, IsLatLong, IsLongitude, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { Position } from '../recycle-point.model';
+import {
+  ArrayMaxSize,
+  arrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsLatitude,
+  IsLongitude,
+  IsMilitaryTime,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUrl,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
+import { Position, Weekdays } from '../recycle-point.model';
 
 class PositionDto {
   @IsLatitude()
   @IsNumber()
-  latitude: number
-  
+  latitude: number;
+
   @IsLongitude()
   @IsNumber()
-  longitude: number
+  longitude: number;
+}
+
+class PeriodDto {
+  @IsMilitaryTime()
+  start: string;
+
+  @IsMilitaryTime()
+  end: string;
+}
+class DailyScheduleDto {
+  @IsEnum(Weekdays)
+  day: Weekdays;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @ArrayMinSize(1)
+  @Type(() => PeriodDto)
+  periods: PeriodDto[];
+}
+class OpeningHoursDto {
+  @IsBoolean()
+  dayAndNight: boolean;
+
+  @IsArray()
+  @ValidateIf((o) => o.dayAndNight === false)
+  @ArrayMinSize(7)
+  @ValidateNested({ each: true })
+  @Type(() => DailyScheduleDto)
+  weekSchedule: DailyScheduleDto[];
+}
+
+class ContactsDto {
+  @IsUrl()
+  site: string;
 }
 
 export class CreateRecyclePointDto {
@@ -25,12 +76,16 @@ export class CreateRecyclePointDto {
   description?: string;
 
   @IsOptional()
-  @IsString()
-  openingHours?: string;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => OpeningHoursDto)
+  openingHours?: OpeningHoursDto;
 
   @IsOptional()
-  @IsString()
-  site?: string;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ContactsDto)
+  contacts?: ContactsDto;
 
   @IsOptional()
   @IsObject()
