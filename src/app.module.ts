@@ -12,12 +12,14 @@ import { RecyclePointModule } from './recycle-point/recycle-point.module';
 import { ClusterModule } from './cluster/cluster.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
       useFactory: getMongoConfig,
       inject: [ConfigService],
     }),
@@ -29,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
     RecyclePointModule,
     ClusterModule,
     CategoryModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
