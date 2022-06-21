@@ -7,13 +7,13 @@ export class CreateMaterialDto {
 
   @IsArray()
   @IsString({ each: true })
-  @IsMongoId()
+  @IsMongoId({ each: true })
   typeIDs: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  @IsMongoId()
+  @IsMongoId({ each: true })
   similarMaterialIDs?: string[];
 
   @IsOptional()

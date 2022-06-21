@@ -4,10 +4,7 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
-  IsLatitude,
-  IsLongitude,
   IsMilitaryTime,
-  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -15,28 +12,8 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
+import { PositionDto } from 'src/maps/dto/maps.dto';
 import { Weekdays } from '../recycle-point.model';
-
-class CoordinatesDto {
-  @IsLatitude()
-  @IsNumber()
-  latitude: number;
-
-  @IsLongitude()
-  @IsNumber()
-  longitude: number;
-}
-
-class PositionDto {
-  @IsObject()
-  @ValidateNested()
-  @Type(() => CoordinatesDto)
-  coordinates: CoordinatesDto;
-
-  @IsOptional()
-  @IsString()
-  address?: string;
-}
 
 class PeriodDto {
   @IsMilitaryTime()
