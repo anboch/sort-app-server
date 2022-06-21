@@ -17,7 +17,7 @@ import {
 } from 'class-validator';
 import { Weekdays } from '../recycle-point.model';
 
-class PositionDto {
+class CoordinatesDto {
   @IsLatitude()
   @IsNumber()
   latitude: number;
@@ -25,6 +25,17 @@ class PositionDto {
   @IsLongitude()
   @IsNumber()
   longitude: number;
+}
+
+class PositionDto {
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CoordinatesDto)
+  coordinates: CoordinatesDto;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
 }
 
 class PeriodDto {
@@ -64,10 +75,6 @@ class ContactsDto {
 export class CreateRecyclePointDto {
   @IsString()
   title: string;
-
-  @IsOptional()
-  @IsString()
-  address?: string;
 
   @IsOptional()
   @IsString()
