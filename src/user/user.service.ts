@@ -1,10 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { compare, genSalt, hash } from 'bcryptjs';
 import { Model } from 'mongoose';
-// import { AuthDto } from 'src/auth/dto/authEmail.dto';
-import { USER_NOT_FOUND_ERROR, WRONG_PASSWORD_ERROR } from './user.constants';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserModel, UserDocument } from './user.model';
 
 @Injectable()
@@ -18,5 +15,17 @@ export class UserService {
 
   async find(email: string): Promise<UserModel | null> {
     return this.userModel.findOne({ email }).exec();
+  }
+
+  async findById(_id: string): Promise<UserModel | null> {
+    return this.userModel.findOne({ _id }).exec();
+  }
+
+  async deleteById(_id: string): Promise<{ deletedCount: number }> {
+    return this.userModel.deleteOne({ _id }).exec();
+  }
+
+  async updateById(_id: string, dto: UpdateUserDto): Promise<UserModel | null> {
+    return this.userModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
   }
 }

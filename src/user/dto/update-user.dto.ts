@@ -1,3 +1,49 @@
-import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsMongoId,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CoordinatesDto, PositionDto } from 'src/maps/dto/maps.dto';
 
-export class XUserDto {}
+class CityDto {
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CoordinatesDto)
+  coordinates: CoordinatesDto;
+
+  @IsString()
+  name: string;
+}
+export class UpdateUserDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsMongoId({ each: true })
+  binIDs?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsMongoId({ each: true })
+  recyclePointIDs?: string[];
+
+  @IsOptional()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => PositionDto)
+  position?: PositionDto;
+
+  @IsOptional()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CityDto)
+  city?: CityDto;
+}
