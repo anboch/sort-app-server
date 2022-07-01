@@ -46,7 +46,7 @@ export class AuthService {
 
   async login(email: string): Promise<{ access_token: string }> {
     await this.deleteConfirmCode(email);
-    let existUser = await this.userService.find(email);
+    let existUser = await this.userService.findByEmail(email);
     if (!existUser) {
       existUser = await this.userService.create(email);
     }
