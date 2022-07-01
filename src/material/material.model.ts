@@ -10,11 +10,7 @@ export type MaterialDocument = MaterialModel & Document;
 export class MaterialModel {
   _id: string;
 
-  @Prop({
-    required: true,
-    type: [{ type: mongoose.Schema.Types.String }],
-    unique: true,
-  })
+  @Prop({ required: true, unique: true })
   titles: string[];
 
   @Prop({
