@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateMaterialDto } from './dto/create-material.dto';
-import { SearchMaterialDto } from './dto/search-material.dto';
 import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialModel } from './material.model';
 import { MaterialService } from './material.service';
