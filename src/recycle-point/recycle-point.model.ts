@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { mongoId } from 'src/common/types';
 import { collectionNames } from 'src/configs/mongo.config';
 import { Position } from 'src/maps/data.structure';
 
@@ -38,13 +39,10 @@ class Contacts {
 
 @Schema({ collection: collectionNames.RECYCLE_POINT })
 export class RecyclePointModel {
-  _id: string;
+  _id: mongoId;
 
   @Prop({ required: true })
   title: string;
-
-  @Prop({ unique: true })
-  address: string;
 
   @Prop()
   description: string;

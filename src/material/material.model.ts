@@ -2,13 +2,14 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { CategoryModel } from 'src/category/category.model';
 import { ClusterModel } from 'src/cluster/cluster.model';
+import { mongoId } from 'src/common/types';
 import { collectionNames } from 'src/configs/mongo.config';
 import { TypeModel } from 'src/type/type.model';
 
 export type MaterialDocument = MaterialModel & Document;
 @Schema({ collection: collectionNames.MATERIAL })
 export class MaterialModel {
-  _id: string;
+  _id: mongoId;
 
   @Prop({ required: true, unique: true })
   titles: string[];
@@ -17,10 +18,10 @@ export class MaterialModel {
     required: true,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TYPE }],
   })
-  typeIDs: TypeModel[];
+  typeIDs: mongoId[] | TypeModel[];
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.MATERIAL }] })
-  similarMaterialIDs: MaterialModel[];
+  similarMaterialIDs: mongoId[] | MaterialModel[];
 
   @Prop()
   description: string;
@@ -29,10 +30,10 @@ export class MaterialModel {
   images: string[];
 
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CATEGORY })
-  categoryID: CategoryModel;
+  categoryID: mongoId | CategoryModel;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CLUSTER })
-  clusterID: ClusterModel;
+  clusterID: mongoId | ClusterModel;
 }
 
 export const MaterialSchema = SchemaFactory.createForClass(MaterialModel);

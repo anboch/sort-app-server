@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import { BinModel } from 'src/bin/bin.model';
+import { mongoId } from 'src/common/types';
 import { collectionNames } from 'src/configs/mongo.config';
 import { Coordinates, Position } from 'src/maps/data.structure';
 import { RecyclePointModel } from 'src/recycle-point/recycle-point.model';
@@ -17,7 +18,7 @@ class City {
 
 @Schema({ collection: collectionNames.USER })
 export class UserModel {
-  _id: string;
+  _id: mongoId;
 
   @Prop({ default: 'user' })
   role: string;
@@ -29,12 +30,12 @@ export class UserModel {
   name: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.BIN }] })
-  binIDs: BinModel[];
+  binIDs: mongoId[] | BinModel[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RECYCLE_POINT }],
   })
-  recyclePointIDs: RecyclePointModel[];
+  recyclePointIDs: mongoId[] | RecyclePointModel[];
 
   @Prop()
   position: Position;

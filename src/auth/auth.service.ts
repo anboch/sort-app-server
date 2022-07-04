@@ -50,6 +50,6 @@ export class AuthService {
     if (!existUser) {
       existUser = await this.userService.create(email);
     }
-    return this.signJWT(existUser._id);
+    return this.signJWT(existUser._id.toString());
   }
 }

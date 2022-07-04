@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { mongoId } from 'src/common/types';
 import { UserModel } from 'src/user/user.model';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate({ _id }: Pick<UserModel, '_id'>): string {
+  validate({ _id }: Pick<UserModel, '_id'>): mongoId {
     return _id;
   }
 }
