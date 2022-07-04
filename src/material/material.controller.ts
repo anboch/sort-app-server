@@ -1,11 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   NotFoundException,
   Param,
-  Patch,
   Post,
   UseGuards,
   UsePipes,
@@ -13,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateMaterialDto } from './dto/create-material.dto';
+import { SearchMaterialDto } from './dto/search-material.dto';
 import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialModel } from './material.model';
 import { MaterialService } from './material.service';
@@ -27,16 +26,17 @@ export class MaterialController {
     return this.materialService.create(dto);
   }
 
-  @Get(':id')
+  @Get('/by-id/:id')
   async getById(@Param('id') id: string): Promise<MaterialModel> {
     const material = await this.materialService.findById(id);
     if (!material) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
     return material;
   }
 
-  // @Delete(':id')
-  // async delete(@Param('id') id: string) {}
-
-  // @Patch(':id')
-  // async patch(@Param('id') id: string, @Body() dto: MaterialModel) {}
+  @Get('searchList')
+  async searchList(): Promise<Pick<MaterialModel, 'titles' | 'categoryID' | 'clusterID'>[]> {
+    const materialList = await this.materialService.getSearchList();
+    if (!materialList) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    return materialList;
+  }
 }
