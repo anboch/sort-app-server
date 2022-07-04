@@ -6,13 +6,11 @@ export class CreateMaterialDto {
   titles: string[];
 
   @IsArray()
-  @IsString({ each: true })
   @IsMongoId({ each: true })
   typeIDs: string[];
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
   @IsMongoId({ each: true })
   similarMaterialIDs?: string[];
 
@@ -25,12 +23,11 @@ export class CreateMaterialDto {
   @IsString({ each: true })
   images?: string[];
 
-  @IsString()
   @IsMongoId()
+  // TODO maybe change type string to mongoId
   categoryID: string;
 
   @IsOptional()
-  @IsString()
   @IsMongoId()
   clusterID?: string;
 }
