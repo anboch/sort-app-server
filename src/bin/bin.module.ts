@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from 'src/user/user.module';
 import { BinController } from './bin.controller';
 import { BinModel, BinSchema } from './bin.model';
 import { BinService } from './bin.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: BinModel.name, schema: BinSchema }])],
+  imports: [UserModule, MongooseModule.forFeature([{ name: BinModel.name, schema: BinSchema }])],
   controllers: [BinController],
   providers: [BinService],
 })
