@@ -7,7 +7,6 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateCategoryDto): Promise<CategoryModel> {
     return this.categoryService.create(dto);

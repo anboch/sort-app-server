@@ -7,7 +7,6 @@ import { CreateClusterDto } from './dto/create-cluster.dto';
 export class ClusterController {
   constructor(private readonly clusterService: ClusterService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateClusterDto): Promise<ClusterModel> {
     return this.clusterService.create(dto);

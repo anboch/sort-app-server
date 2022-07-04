@@ -22,7 +22,6 @@ export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
   @UseGuards(JwtAuthGuard)
-  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateMaterialDto): Promise<MaterialModel> {
     return this.materialService.create(dto);

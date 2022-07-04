@@ -18,7 +18,6 @@ import { ConfirmDto } from './dto/confirm.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post('request')
   async request(@Body() { email }: AuthEmailDto): Promise<void> {
@@ -27,7 +26,6 @@ export class AuthController {
     await this.authService.saveAndSendConfirmCode(email);
   }
 
-  @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get('confirm')
   async confirm(@Query() query: ConfirmDto): Promise<{ access_token: string }> {

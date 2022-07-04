@@ -17,7 +17,6 @@ import { TypeService } from './type.service';
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateTypeDto): Promise<TypeModel> {
     return this.typeService.create(dto);
