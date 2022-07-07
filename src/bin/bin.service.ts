@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
+import { IRequestor } from 'src/auth/interfaces/requestor.interface';
 import { TypeModel } from 'src/type/type.model';
-import { USER_NOT_FOUND_ERROR } from 'src/user/user.constants';
 import { UserService } from 'src/user/user.service';
 import { BinModel, BinDocument } from './bin.model';
 import { CreateBinDto } from './dto/create-bin.dto';

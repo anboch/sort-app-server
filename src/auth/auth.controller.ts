@@ -1,14 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Query,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
 import { ALREADY_REQUESTED_ERROR, CODE_EXPIRED, WRONG_CODE } from './auth.constants';
 import { AuthService } from './auth.service';
 import { AuthEmailDto } from './dto/authEmail.dto';

@@ -5,7 +5,8 @@ import { collectionNames } from 'src/configs/mongo.config';
 
 export type AuthDocument = AuthModel & Document;
 
-const NEXT_CONFIRM_LINK_DELAY = 60 * 5;
+// TODO to env
+const NEXT_CONFIRM_LINK_DELAY_SEC = 60 * 5;
 
 @Schema({ collection: collectionNames.AUTH })
 export class AuthModel {
@@ -17,7 +18,7 @@ export class AuthModel {
   @Prop()
   confirmCode: string;
 
-  @Prop({ type: Date, expires: NEXT_CONFIRM_LINK_DELAY, default: Date.now })
+  @Prop({ type: Date, expires: NEXT_CONFIRM_LINK_DELAY_SEC, default: Date.now })
   createdAt: Date;
 }
 

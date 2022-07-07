@@ -25,21 +25,16 @@ import { UserIdDto } from 'src/common/dto/user-id.dto';
 export class BinController {
   constructor(private readonly binService: BinService) {}
 
-  // @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateBinDto): Promise<BinModel> {
     return this.binService.create(dto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
   @Get('all')
   async getAll(@UserId() { id }: UserIdDto): Promise<BinModel[] | null> {
     return this.binService.findByUserID(id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
   @Patch(':binId')
   async patch(
     @UserId() { id }: UserIdDto,
@@ -53,8 +48,6 @@ export class BinController {
     return updatedBin;
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
   @Delete(':binId')
   async delete(@UserId() { id }: UserIdDto, @Param('binId') binId: string): Promise<void> {
     // TODO check userId.binIds include binId
