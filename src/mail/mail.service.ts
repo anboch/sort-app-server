@@ -1,14 +1,14 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { UserModel } from 'src/user/user.model';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) {}
+  constructor(private mailerService: MailerService, private configService: ConfigService) {}
 
   async sendConfirmCode(email: string, confirmCode: string): Promise<void> {
-    // TODO host to env
-    const url = `http://localhost:5000/api/auth/confirm?email=${email}&confirmCode=${confirmCode}`;
+    const host = this.configService.get('HOST');
+    const url = `${host}/api/auth/confirm?email=${email}&confirmCode=${confirmCode}`;
 
     await this.mailerService.sendMail({
       to: email,
