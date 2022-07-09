@@ -4,49 +4,41 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserIdDto } from 'src/common/dto/user-id.dto';
-import { UserId } from 'src/decorators/user-id.decorator';
+import { IRequestor } from 'src/auth/interfaces/requestor.interface';
+import { ParamId } from 'src/common/types';
+import { Requestor } from 'src/decorators/user-id.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NO_UPDATE_DATA, USER_NOT_FOUND_ERROR, WRONG_ID } from './user.constants';
 import { UserModel } from './user.model';
 import { UserService } from './user.service';
 
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
-  @Get()
-  async get(@UserId() { id }: UserIdDto): Promise<UserModel> {
-    const user = await this.userService.findById(id);
-    if (!user) throw new BadRequestException(USER_NOT_FOUND_ERROR);
-    return user;
+  @Get(':id')
+  async get(@Requestor() requestor: IRequestor, @Param() params: ParamId): Promise<UserModel> {
+    return this.userService.findById(params.id, requestor);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
-  @Delete(':paramId')
-  async delete(@UserId() { id }: UserIdDto, @Param('paramId') paramId: string): Promise<void> {
-    if (id !== paramId) throw new BadRequestException(WRONG_ID);
-    const user = await this.userService.deleteById(id);
+  @Delete(':id')
+  async delete(@Requestor() requestor: IRequestor, @Param() params: ParamId): Promise<void> {
+    return this.userService.deleteById(params.id, requestor);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(new ValidationPipe())
-  @Patch()
-  async patch(@UserId() { id }: UserIdDto, @Body() dto: UpdateUserDto): Promise<UserModel> {
+  @Patch(':id')
+  async patch(
+    @Requestor() requestor: IRequestor,
+    @Param() params: ParamId,
+    @Body() dto: UpdateUserDto
+  ): Promise<UserModel> {
     if (Object.keys(dto).length === 0) throw new BadRequestException(NO_UPDATE_DATA);
-    const updatedUser = await this.userService.updateById(id, dto);
-    if (!updatedUser) throw new NotFoundException(USER_NOT_FOUND_ERROR);
-    return updatedUser;
+    return this.userService.updateById(params.id, dto, requestor);
   }
 }

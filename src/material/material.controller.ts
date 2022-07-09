@@ -1,41 +1,31 @@
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Action } from 'src/casl/casl-ability.factory';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateMaterialDto } from './dto/create-material.dto';
-import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialModel } from './material.model';
-import { MaterialService } from './material.service';
+import { MaterialService, SearchList } from './material.service';
+import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
+import { AbilityGuard } from 'src/casl/casl-abilities.guard';
+import { ParamId } from '../common/types';
 
 @Controller('material')
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post('create')
+  @UseGuards(JwtAuthGuard, AbilityGuard)
+  @CheckAbilities({ action: Action.Create, subject: MaterialModel })
   async create(@Body() dto: CreateMaterialDto): Promise<MaterialModel> {
     return this.materialService.create(dto);
   }
 
   @Get('/by-id/:id')
-  async getById(@Param('id') id: string): Promise<MaterialModel> {
-    const material = await this.materialService.findById(id);
-    if (!material) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
-    return material;
+  async getById(@Param() params: ParamId): Promise<MaterialModel> {
+    return this.materialService.findById(params.id);
   }
 
   @Get('searchList')
-  async searchList(): Promise<Pick<MaterialModel, 'titles' | 'categoryID' | 'clusterID'>[]> {
-    const materialList = await this.materialService.getSearchList();
-    if (!materialList) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
-    return materialList;
+  async searchList(): Promise<SearchList> {
+    return this.materialService.getSearchList();
   }
 }

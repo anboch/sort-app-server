@@ -1,33 +1,20 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
+import { AbilityGuard } from 'src/casl/casl-abilities.guard';
+import { Action } from 'src/casl/casl-ability.factory';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { TypeModel } from './type.model';
 import { TypeService } from './type.service';
 
 @Controller('type')
+@UseGuards(JwtAuthGuard, AbilityGuard)
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 
   @Post('create')
+  @CheckAbilities({ action: Action.Create, subject: TypeModel })
   async create(@Body() dto: CreateTypeDto): Promise<TypeModel> {
     return this.typeService.create(dto);
   }
-
-  // @Get(':id')
-  // async get(@Param('id') id: string) {}
-
-  // @Delete(':id')
-  // async delete(@Param('id') id: string) {}
-
-  // @Patch(':id')
-  // async patch(@Param('id') id: string, @Body() dto: TypeModel) {}
 }

@@ -23,17 +23,17 @@ export class UpdateUserDto {
   @IsString()
   name?: string;
 
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  @IsMongoId({ each: true })
-  binIDs?: string[];
+  // @IsOptional()
+  // @IsArray()
+  // @IsString({ each: true })
+  // @IsMongoId({ each: true })
+  // binIDs?: string[];
 
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  @IsMongoId({ each: true })
-  recyclePointIDs?: string[];
+  // @IsOptional()
+  // @IsArray()
+  // @IsString({ each: true })
+  // @IsMongoId({ each: true })
+  // recyclePointIDs?: string[];
 
   @IsOptional()
   @IsObject()

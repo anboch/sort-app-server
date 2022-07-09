@@ -9,6 +9,7 @@ export class TypeService {
   constructor(@InjectModel(TypeModel.name) private typeModel: Model<TypeDocument>) {}
 
   async create(createTypeDto: CreateTypeDto): Promise<TypeModel> {
+    // TODO check if recyclePointIDs is in collection
     const createdModel = new this.typeModel(createTypeDto);
     return createdModel.save();
   }

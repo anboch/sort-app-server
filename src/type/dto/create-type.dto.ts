@@ -6,7 +6,6 @@ export class CreateTypeDto {
   title: string;
 
   @IsArray()
-  @IsString({ each: true })
   @IsMongoId({ each: true })
   recyclePointIDs: string[];
 }

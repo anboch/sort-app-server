@@ -9,49 +9,52 @@ import {
   Patch,
   Post,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
+import { Action } from 'src/casl/casl-ability.factory';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserId } from 'src/decorators/user-id.decorator';
 import { BinModel } from './bin.model';
 import { BinService } from './bin.service';
 import { CreateBinDto } from './dto/create-bin.dto';
 import { UpdateBinDto } from './dto/update-bin.dto';
-import { BIN_NOT_FOUND_ERROR, NO_BIN_UPDATE_DATA } from './bin.constants';
-import { UserIdDto } from 'src/common/dto/user-id.dto';
+import { NO_BIN_UPDATE_DATA } from './bin.constants';
+import { Requestor } from 'src/decorators/user-id.decorator';
+import { IRequestor } from 'src/auth/interfaces/requestor.interface';
+import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
+import { AbilityGuard } from 'src/casl/casl-abilities.guard';
+import { ParamId } from '../common/types';
 
 @Controller('bin')
+@UseGuards(JwtAuthGuard, AbilityGuard)
 export class BinController {
   constructor(private readonly binService: BinService) {}
 
   @Post('create')
-  async create(@Body() dto: CreateBinDto): Promise<BinModel> {
-    return this.binService.create(dto);
+  @CheckAbilities({ action: Action.Create, subject: BinModel })
+  async create(@Requestor() requestor: IRequestor, @Body() dto: CreateBinDto): Promise<BinModel> {
+    return this.binService.create(dto, requestor);
   }
 
   @Get('all')
-  async getAll(@UserId() { id }: UserIdDto): Promise<BinModel[] | null> {
-    return this.binService.findByUserID(id);
+  @CheckAbilities({ action: Action.Read, subject: BinModel })
+  async getAll(@Requestor() requestor: IRequestor): Promise<BinModel[] | null> {
+    return this.binService.getAllUserBins(requestor);
   }
 
-  @Patch(':binId')
+  @Patch(':id')
+  @CheckAbilities({ action: Action.Update, subject: BinModel })
   async patch(
-    @UserId() { id }: UserIdDto,
+    @Requestor() requestor: IRequestor,
     @Body() dto: UpdateBinDto,
-    @Param('binId') binId: string
+    @Param() params: ParamId
   ): Promise<BinModel> {
     // TODO check userId.binIds include binId
     if (Object.keys(dto).length === 0) throw new BadRequestException(NO_BIN_UPDATE_DATA);
-    const updatedBin = await this.binService.updateById(binId, dto);
-    if (!updatedBin) throw new NotFoundException(BIN_NOT_FOUND_ERROR);
-    return updatedBin;
+    return this.binService.updateById(params.id, dto, requestor);
   }
 
-  @Delete(':binId')
-  async delete(@UserId() { id }: UserIdDto, @Param('binId') binId: string): Promise<void> {
-    // TODO check userId.binIds include binId
-    const { deletedCount } = await this.binService.deleteById(binId);
-    if (deletedCount === 0) throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+  @Delete(':id')
+  @CheckAbilities({ action: Action.Delete, subject: BinModel })
+  async delete(@Requestor() requestor: IRequestor, @Param() params: ParamId): Promise<void> {
+    return this.binService.deleteById(params.id, requestor);
   }
 }

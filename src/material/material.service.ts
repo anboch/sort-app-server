@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { CategoryModel } from 'src/category/category.model';
 import { ClusterModel } from 'src/cluster/cluster.model';
 import { CreateMaterialDto } from './dto/create-material.dto';
+import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialDocument, MaterialModel } from './material.model';
 
+export type SearchList = Pick<MaterialModel, 'titles' | 'categoryID' | 'clusterID'>[];
 @Injectable()
 export class MaterialService {
   constructor(@InjectModel(MaterialModel.name) private materialModel: Model<MaterialDocument>) {}
@@ -19,14 +21,14 @@ export class MaterialService {
     return this.materialModel.find().exec();
   }
 
-  async findById(id: string): Promise<MaterialModel | null> {
-    return this.materialModel.findById(id).exec();
+  async findById(id: string): Promise<MaterialModel> {
+    const material = await this.materialModel.findById(id).exec();
+    if (!material) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    return material;
   }
 
-  async getSearchList(): Promise<
-    Pick<MaterialModel, 'titles' | 'categoryID' | 'clusterID'>[] | null
-  > {
-    return this.materialModel.find({}, 'titles').populate([
+  async getSearchList(): Promise<SearchList> {
+    const materialList = await this.materialModel.find({}, 'titles').populate([
       {
         path: 'clusterID',
         model: ClusterModel.name,
@@ -36,6 +38,8 @@ export class MaterialService {
         model: CategoryModel.name,
       },
     ]);
+    if (!materialList) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    return materialList;
   }
 
   async deleteById(id: string): Promise<MaterialModel | null> {

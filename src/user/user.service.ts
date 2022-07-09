@@ -1,12 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import { AbilityFactory, Action } from 'src/casl/casl-ability.factory';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { USER_NOT_FOUND_ERROR, USER_NOT_UPDATED_ERROR } from './user.constants';
 import { UserModel, UserDocument } from './user.model';
+import { IRequestor } from 'src/auth/interfaces/requestor.interface';
+import { BinModel } from '../bin/bin.model';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(UserModel.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
+    private abilityFactory: AbilityFactory
+  ) {}
 
   async create(email: string): Promise<UserModel> {
     const newUser = new this.userModel({ email });
@@ -17,15 +25,38 @@ export class UserService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async findById(_id: string): Promise<UserModel | null> {
-    return this.userModel.findOne({ _id }).exec();
+  async findById(_id: string, requestor: IRequestor): Promise<UserModel> {
+    const foundUser = await this.anonFindById(_id);
+    await this.abilityFactory.checkUserAbility(requestor, Action.Read, foundUser);
+    return foundUser;
   }
 
-  async deleteById(_id: string): Promise<{ deletedCount: number }> {
-    return this.userModel.deleteOne({ _id }).exec();
+  async anonFindById(_id: string): Promise<UserModel> {
+    const foundUser = await this.userModel.findOne({ _id }).exec();
+    if (!foundUser) throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    return foundUser;
   }
 
-  async updateById(_id: string, dto: UpdateUserDto): Promise<UserModel | null> {
-    return this.userModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
+  async deleteById(_id: string, requestor: IRequestor): Promise<void> {
+    const foundUser = await this.anonFindById(_id);
+    await this.abilityFactory.checkUserAbility(requestor, Action.Delete, foundUser);
+    const { deletedCount } = await this.userModel.deleteOne({ _id }).exec();
+    if (deletedCount === 0) throw new NotFoundException(USER_NOT_FOUND_ERROR);
+  }
+
+  async updateById(_id: string, dto: UpdateUserDto, requestor: IRequestor): Promise<UserModel> {
+    const foundUser = await this.anonFindById(_id);
+    await this.abilityFactory.checkUserAbility(requestor, Action.Update, foundUser);
+    const updatedUser = await this.userModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
+    if (!updatedUser) throw new InternalServerErrorException(USER_NOT_UPDATED_ERROR);
+    return updatedUser;
+  }
+
+  async addBinToUser(userId: string, binId: string): Promise<void> {
+    await this.userModel.updateOne({ _id: userId }, { $push: { binIDs: binId } }).exec();
+  }
+
+  async delBinFromUser(userId: string, binId: Pick<BinModel, '_id'>): Promise<void> {
+    await this.userModel.updateOne({ _id: userId }, { $pull: { binIDs: binId } }).exec();
   }
 }

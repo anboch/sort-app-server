@@ -16,12 +16,16 @@ class City {
   name: string;
 }
 
+export enum Role {
+  USER = 'user',
+  ADMIN = 'admin',
+}
 @Schema({ collection: collectionNames.USER })
 export class UserModel {
   _id: mongoId;
 
-  @Prop({ default: 'user' })
-  role: string;
+  @Prop({ type: String, enum: Role, default: Role.USER })
+  role: Role;
 
   @Prop({ required: true, unique: true })
   email: string;

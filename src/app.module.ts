@@ -13,6 +13,7 @@ import { ClusterModule } from './cluster/cluster.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MailModule } from './mail/mail.module';
     ClusterModule,
     CategoryModule,
     MailModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],
