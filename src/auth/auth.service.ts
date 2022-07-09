@@ -5,6 +5,7 @@ import { UserService } from 'src/user/user.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AuthModel, AuthDocument } from './auth.model';
+import { IJwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -14,14 +15,6 @@ export class AuthService {
     private readonly mailService: MailService,
     @InjectModel(AuthModel.name) private authModel: Model<AuthDocument>
   ) {}
-
-  async signJWT(_id: string): Promise<{ access_token: string }> {
-    const payload = { _id };
-    // TODO add refresh
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
-  }
 
   async find(email: string): Promise<AuthModel | null> {
     return this.authModel.findOne({ email }).exec();
@@ -50,6 +43,14 @@ export class AuthService {
     if (!existUser) {
       existUser = await this.userService.create(email);
     }
-    return this.signJWT(existUser._id.toString());
+    const payload: IJwtPayload = { _id: existUser._id.toString() };
+    return this.signJWT(payload);
+  }
+
+  async signJWT(payload: IJwtPayload): Promise<{ access_token: string }> {
+    // TODO add refresh
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }
