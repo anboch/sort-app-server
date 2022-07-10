@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CategoryModel } from 'src/category/category.model';
-import { ClusterModel } from 'src/cluster/cluster.model';
+import { CategoryModel } from '../category/category.model';
+import { ClusterModel } from '../cluster/cluster.model';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialDocument, MaterialModel } from './material.model';

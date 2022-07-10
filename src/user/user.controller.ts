@@ -8,10 +8,10 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { IRequestor } from 'src/auth/interfaces/requestor.interface';
-import { ParamId } from 'src/common/types';
-import { Requestor } from 'src/decorators/user-id.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { IRequestor } from '../auth/interfaces/requestor.interface';
+import { ParamId } from '../common/types';
+import { Requestor } from '../decorators/user-id.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NO_UPDATE_DATA, USER_NOT_FOUND_ERROR, WRONG_ID } from './user.constants';
 import { UserModel } from './user.model';

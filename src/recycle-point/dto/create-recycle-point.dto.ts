@@ -12,7 +12,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { PositionDto } from 'src/maps/dto/maps.dto';
+import { PositionDto } from '../../maps/dto/maps.dto';
 import { Weekdays } from '../recycle-point.model';
 
 class PeriodDto {

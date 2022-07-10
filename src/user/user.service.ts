@@ -1,13 +1,12 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
-import { AbilityFactory, Action } from 'src/casl/casl-ability.factory';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { USER_NOT_FOUND_ERROR, USER_NOT_UPDATED_ERROR } from './user.constants';
 import { UserModel, UserDocument } from './user.model';
-import { IRequestor } from 'src/auth/interfaces/requestor.interface';
 import { BinModel } from '../bin/bin.model';
+import { IRequestor } from '../auth/interfaces/requestor.interface';
+import { AbilityFactory, Action } from '../casl/casl-ability.factory';
 
 @Injectable()
 export class UserService {

@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { Action } from 'src/casl/casl-ability.factory';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { MaterialModel } from './material.model';
 import { MaterialService, SearchList } from './material.service';
-import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
-import { AbilityGuard } from 'src/casl/casl-abilities.guard';
 import { ParamId } from '../common/types';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { CheckAbilities } from '../casl/casl-abilities.decorator';
+import { AbilityGuard } from '../casl/casl-abilities.guard';
+import { Action } from '../casl/casl-ability.factory';
 
 @Controller('material')
 export class MaterialController {

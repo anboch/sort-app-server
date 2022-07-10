@@ -1,8 +1,8 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
-import { AbilityGuard } from 'src/casl/casl-abilities.guard';
-import { Action } from 'src/casl/casl-ability.factory';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { CheckAbilities } from '../casl/casl-abilities.decorator';
+import { AbilityGuard } from '../casl/casl-abilities.guard';
+import { Action } from '../casl/casl-ability.factory';
 import { CategoryModel } from './category.model';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';

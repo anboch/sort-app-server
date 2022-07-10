@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { CategoryModel } from 'src/category/category.model';
-import { ClusterModel } from 'src/cluster/cluster.model';
-import { mongoId } from 'src/common/types';
-import { collectionNames } from 'src/configs/mongo.config';
-import { TypeModel } from 'src/type/type.model';
+import { CategoryModel } from '../category/category.model';
+import { ClusterModel } from '../cluster/cluster.model';
+import { mongoId } from '../common/types';
+import { collectionNames } from '../configs/mongo.config';
+import { TypeModel } from '../type/type.model';
 
 export type MaterialDocument = MaterialModel & Document;
 @Schema({ collection: collectionNames.MATERIAL })

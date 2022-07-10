@@ -1,13 +1,6 @@
 import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsMongoId,
-  IsObject,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { CoordinatesDto, PositionDto } from 'src/maps/dto/maps.dto';
+import { IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { CoordinatesDto, PositionDto } from '../../maps/dto/maps.dto';
 
 class CityDto {
   @IsObject()

@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { getJWTConfig } from 'src/configs/jwt.config';
-import { MailService } from 'src/mail/mail.service';
-import { UserModule } from 'src/user/user.module';
-import { UserService } from 'src/user/user.service';
+import { getJWTConfig } from '../configs/jwt.config';
+import { MailService } from '../mail/mail.service';
+import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthModel, AuthSchema } from './auth.model';
 import { AuthService } from './auth.service';

@@ -4,24 +4,23 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { Action } from 'src/casl/casl-ability.factory';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { BinModel } from './bin.model';
 import { BinService } from './bin.service';
 import { CreateBinDto } from './dto/create-bin.dto';
 import { UpdateBinDto } from './dto/update-bin.dto';
 import { NO_BIN_UPDATE_DATA } from './bin.constants';
-import { Requestor } from 'src/decorators/user-id.decorator';
-import { IRequestor } from 'src/auth/interfaces/requestor.interface';
-import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
-import { AbilityGuard } from 'src/casl/casl-abilities.guard';
 import { ParamId } from '../common/types';
+import { Action } from '../casl/casl-ability.factory';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { IRequestor } from '../auth/interfaces/requestor.interface';
+import { CheckAbilities } from '../casl/casl-abilities.decorator';
+import { AbilityGuard } from '../casl/casl-abilities.guard';
+import { Requestor } from '../decorators/user-id.decorator';
 
 @Controller('bin')
 @UseGuards(JwtAuthGuard, AbilityGuard)

@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { mongoId } from 'src/common/types';
-import { collectionNames } from 'src/configs/mongo.config';
-import { Position } from 'src/maps/data.structure';
+import { mongoId } from '../common/types';
+import { collectionNames } from '../configs/mongo.config';
+import { Position } from '../maps/data.structure';
 
 export type RecyclePointDocument = RecyclePointModel & Document;
 

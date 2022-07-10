@@ -1,8 +1,8 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { Action } from 'src/casl/casl-ability.factory';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { CheckAbilities } from 'src/casl/casl-abilities.decorator';
-import { AbilityGuard } from 'src/casl/casl-abilities.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { CheckAbilities } from '../casl/casl-abilities.decorator';
+import { AbilityGuard } from '../casl/casl-abilities.guard';
+import { Action } from '../casl/casl-ability.factory';
 import { CreateRecyclePointDto } from './dto/create-recycle-point.dto';
 import { RecyclePointModel } from './recycle-point.model';
 import { RecyclePointService } from './recycle-point.service';

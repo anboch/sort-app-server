@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Role, UserDocument, UserModel } from 'src/user/user.model';
 import {
   InferSubjects,
   Ability,
@@ -8,15 +7,16 @@ import {
   ExtractSubjectType,
   ForbiddenError,
 } from '@casl/ability';
-import { IRequestor } from 'src/auth/interfaces/requestor.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { TypeModel } from 'src/type/type.model';
-import { RecyclePointModel } from 'src/recycle-point/recycle-point.model';
-import { BinDocument, BinModel } from 'src/bin/bin.model';
-import { CategoryModel } from 'src/category/category.model';
-import { ClusterModel } from 'src/cluster/cluster.model';
-import { MaterialModel } from 'src/material/material.model';
+import { IRequestor } from '../auth/interfaces/requestor.interface';
+import { BinModel, BinDocument } from '../bin/bin.model';
+import { CategoryModel } from '../category/category.model';
+import { ClusterModel } from '../cluster/cluster.model';
+import { MaterialModel } from '../material/material.model';
+import { RecyclePointModel } from '../recycle-point/recycle-point.model';
+import { TypeModel } from '../type/type.model';
+import { UserModel, UserDocument, Role } from '../user/user.model';
 
 export enum Action {
   Manage = 'manage',

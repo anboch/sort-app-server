@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { mongoId } from 'src/common/types';
-import { collectionNames } from 'src/configs/mongo.config';
+import { Document } from 'mongoose';
+import { mongoId } from '../common/types';
+import { collectionNames } from '../configs/mongo.config';
 
 export type AuthDocument = AuthModel & Document;
 

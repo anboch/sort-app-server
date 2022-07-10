@@ -1,12 +1,12 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BinModel, BinSchema } from 'src/bin/bin.model';
-import { CategoryModel, CategorySchema } from 'src/category/category.model';
-import { ClusterModel, ClusterSchema } from 'src/cluster/cluster.model';
-import { MaterialModel, MaterialSchema } from 'src/material/material.model';
-import { RecyclePointModel, RecyclePointSchema } from 'src/recycle-point/recycle-point.model';
-import { TypeModel, TypeSchema } from 'src/type/type.model';
-import { UserModel, UserSchema } from 'src/user/user.model';
+import { BinModel, BinSchema } from '../bin/bin.model';
+import { CategoryModel, CategorySchema } from '../category/category.model';
+import { ClusterModel, ClusterSchema } from '../cluster/cluster.model';
+import { MaterialModel, MaterialSchema } from '../material/material.model';
+import { RecyclePointModel, RecyclePointSchema } from '../recycle-point/recycle-point.model';
+import { TypeModel, TypeSchema } from '../type/type.model';
+import { UserModel, UserSchema } from '../user/user.model';
 import { AbilityFactory } from './casl-ability.factory';
 
 @Global()

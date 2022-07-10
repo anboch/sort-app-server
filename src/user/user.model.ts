@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { BinModel } from 'src/bin/bin.model';
-import { mongoId } from 'src/common/types';
-import { collectionNames } from 'src/configs/mongo.config';
-import { Coordinates, Position } from 'src/maps/data.structure';
-import { RecyclePointModel } from 'src/recycle-point/recycle-point.model';
+import { BinModel } from '../bin/bin.model';
+import { mongoId } from '../common/types';
+import { collectionNames } from '../configs/mongo.config';
+import { Coordinates, Position } from '../maps/data.structure';
+import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 
 export type UserDocument = UserModel & Document;
 

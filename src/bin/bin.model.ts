@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { mongoId } from 'src/common/types';
-import { collectionNames } from 'src/configs/mongo.config';
-import { RecyclePointModel } from 'src/recycle-point/recycle-point.model';
-import { TypeModel } from 'src/type/type.model';
+import { mongoId } from '../common/types';
+import { collectionNames } from '../configs/mongo.config';
+import { RecyclePointModel } from '../recycle-point/recycle-point.model';
+import { TypeModel } from '../type/type.model';
 
 export type BinDocument = BinModel & Document;
 
