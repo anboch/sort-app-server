@@ -2,16 +2,22 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { USER_NOT_FOUND_ERROR, USER_NOT_UPDATED_ERROR } from './user.constants';
+import {
+  USER_NOT_DELETED_ERROR,
+  USER_NOT_FOUND_ERROR,
+  USER_NOT_UPDATED_ERROR,
+} from './user.constants';
 import { UserModel, UserDocument } from './user.model';
-import { BinModel } from '../bin/bin.model';
+import { BinDocument, BinModel } from '../bin/bin.model';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { AbilityFactory, Action } from '../casl/casl-ability.factory';
+import { BinService } from '../bin/bin.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
+    @InjectModel(BinModel.name) private binModel: Model<BinDocument>,
     private abilityFactory: AbilityFactory
   ) {}
 
@@ -39,8 +45,11 @@ export class UserService {
   async deleteById(_id: string, requestor: IRequestor): Promise<void> {
     const foundUser = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Delete, foundUser);
+    for (const _id of foundUser.binIDs) {
+      await this.binModel.deleteOne({ _id }).exec();
+    }
     const { deletedCount } = await this.userModel.deleteOne({ _id }).exec();
-    if (deletedCount === 0) throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    if (deletedCount === 0) throw new InternalServerErrorException(USER_NOT_DELETED_ERROR);
   }
 
   async updateById(_id: string, dto: UpdateUserDto, requestor: IRequestor): Promise<UserModel> {
