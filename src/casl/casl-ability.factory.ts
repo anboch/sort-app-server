@@ -18,7 +18,7 @@ import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 import { TypeModel } from '../type/type.model';
 import { UserModel, UserDocument, Role } from '../user/user.model';
 
-export enum Action {
+export const enum Action {
   Manage = 'manage',
   Create = 'create',
   Read = 'read',
@@ -54,12 +54,13 @@ export class AbilityFactory {
       Ability as AbilityClass<AppAbility>
     );
 
-    // TODO to switch case
-    if (requestor.role === Role.ADMIN) {
-      can(Action.Manage, 'all');
-    } else {
-      can(Action.Manage, this.userModel, { _id: { $eq: requestor._id } });
-      can(Action.Manage, [BinModel, this.binModel], { _id: { $in: requestor.binIDs } });
+    switch (requestor.role) {
+      case 'admin':
+        can(Action.Manage, 'all');
+        break;
+      case 'user':
+        can(Action.Manage, this.userModel, { _id: { $eq: requestor._id } });
+        can(Action.Manage, [BinModel, this.binModel], { _id: { $in: requestor.binIDs } });
     }
 
     return build({
