@@ -12,6 +12,7 @@ import { BinDocument, BinModel } from '../bin/bin.model';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { AbilityFactory, Action } from '../casl/casl-ability.factory';
 import { BinService } from '../bin/bin.service';
+import { mongoId } from '../common/types';
 
 @Injectable()
 export class UserService {
@@ -60,7 +61,7 @@ export class UserService {
     return updatedUser;
   }
 
-  async addBinToUser(userId: string, binId: string): Promise<void> {
+  async addBinToUser(userId: string, binId: mongoId): Promise<void> {
     await this.userModel.updateOne({ _id: userId }, { $push: { binIDs: binId } }).exec();
   }
 
