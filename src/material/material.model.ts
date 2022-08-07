@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { CategoryModel } from '../category/category.model';
-import { ClusterModel } from '../cluster/cluster.model';
+import { TagModel } from '../tag/tag.model';
 import { mongoId } from '../common/types';
 import { collectionNames } from '../configs/mongo.config';
 import { TypeModel } from '../type/type.model';
@@ -26,14 +26,14 @@ export class MaterialModel {
   @Prop()
   description: string;
 
-  @Prop([String])
+  @Prop()
   images: string[];
 
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CATEGORY })
   categoryID: mongoId | CategoryModel;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.CLUSTER })
-  clusterID: mongoId | ClusterModel;
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.TAG }] })
+  tagIDs: mongoId[] | TagModel[];
 }
 
 export const MaterialSchema = SchemaFactory.createForClass(MaterialModel);

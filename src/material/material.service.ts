@@ -2,12 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CategoryModel } from '../category/category.model';
-import { ClusterModel } from '../cluster/cluster.model';
+import { TagModel } from '../tag/tag.model';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { MATERIAL_NOT_FOUND_ERROR } from './material.constants';
 import { MaterialDocument, MaterialModel } from './material.model';
 
-export type SearchList = Pick<MaterialModel, 'titles' | 'categoryID' | 'clusterID'>[];
+export type SearchList = Pick<MaterialModel, 'titles' | 'categoryID' | 'tagIDs'>[];
 @Injectable()
 export class MaterialService {
   constructor(@InjectModel(MaterialModel.name) private materialModel: Model<MaterialDocument>) {}
@@ -30,8 +30,8 @@ export class MaterialService {
   async getSearchList(): Promise<SearchList> {
     const materialList = await this.materialModel.find({}, 'titles').populate([
       {
-        path: 'clusterID',
-        model: ClusterModel.name,
+        path: 'tagIDs',
+        model: TagModel.name,
       },
       {
         path: 'categoryID',

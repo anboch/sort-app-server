@@ -28,6 +28,7 @@ export class CreateMaterialDto {
   categoryID: string;
 
   @IsOptional()
-  @IsMongoId()
-  clusterID?: string;
+  @IsArray()
+  @IsMongoId({ each: true })
+  tagIDs?: string[];
 }

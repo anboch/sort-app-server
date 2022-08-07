@@ -12,7 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { BinModel, BinDocument } from '../bin/bin.model';
 import { CategoryModel } from '../category/category.model';
-import { ClusterModel } from '../cluster/cluster.model';
+import { TagModel } from '../tag/tag.model';
 import { MaterialModel } from '../material/material.model';
 import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 import { TypeModel } from '../type/type.model';
@@ -33,7 +33,7 @@ export type Subjects =
       | typeof TypeModel
       | typeof RecyclePointModel
       | typeof MaterialModel
-      | typeof ClusterModel
+      | typeof TagModel
       | typeof CategoryModel
       | typeof BinModel
       | Model<BinDocument>

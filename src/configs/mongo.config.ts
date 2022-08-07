@@ -22,7 +22,7 @@ const getMongoURI = (config: ConfigService): string =>
 export const collectionNames = {
   MATERIAL: 'materials',
   TYPE: 'types',
-  CLUSTER: 'clusters',
+  TAG: 'tags',
   USER: 'users',
   RECYCLE_POINT: 'recyclePoints',
   BIN: 'bins',
