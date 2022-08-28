@@ -21,7 +21,9 @@ export class AbilityGuard implements CanActivate {
         ForbiddenError.from(ability).throwUnlessCan(action, subject);
       });
     } catch (err) {
-      if (err instanceof ForbiddenError) throw new ForbiddenException(err.message);
+      if (err instanceof ForbiddenError) {
+        throw new ForbiddenException(err.message);
+      }
     }
     return true;
   }

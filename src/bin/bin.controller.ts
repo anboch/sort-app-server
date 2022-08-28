@@ -47,7 +47,9 @@ export class BinController {
     @Param() params: ParamId
   ): Promise<BinModel> {
     // TODO check userId.binIds include binId
-    if (Object.keys(dto).length === 0) throw new BadRequestException(NO_BIN_UPDATE_DATA);
+    if (Object.keys(dto).length === 0) {
+      throw new BadRequestException(NO_BIN_UPDATE_DATA);
+    }
     return this.binService.updateById(params.id, dto, requestor);
   }
 

@@ -50,14 +50,18 @@ export class UserService {
       await this.binModel.deleteOne({ _id }).exec();
     }
     const { deletedCount } = await this.userModel.deleteOne({ _id }).exec();
-    if (deletedCount === 0) throw new InternalServerErrorException(USER_NOT_DELETED_ERROR);
+    if (deletedCount === 0) {
+      throw new InternalServerErrorException(USER_NOT_DELETED_ERROR);
+    }
   }
 
   async updateById(_id: string, dto: UpdateUserDto, requestor: IRequestor): Promise<UserModel> {
     const foundUser = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Update, foundUser);
     const updatedUser = await this.userModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
-    if (!updatedUser) throw new InternalServerErrorException(USER_NOT_UPDATED_ERROR);
+    if (!updatedUser) {
+      throw new InternalServerErrorException(USER_NOT_UPDATED_ERROR);
+    }
     return updatedUser;
   }
 

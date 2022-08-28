@@ -1,5 +1,4 @@
-import { ForbiddenError } from '@casl/ability';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -22,7 +21,9 @@ export class BinService {
 
   async anonFindById(_id: string): Promise<BinModel> {
     const foundBin = await this.binModel.findOne({ _id }).exec();
-    if (!foundBin) throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    if (!foundBin) {
+      throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    }
     return foundBin;
   }
 
@@ -54,7 +55,9 @@ export class BinService {
     const foundBin = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Delete, foundBin);
     const { deletedCount } = await this.binModel.deleteOne({ _id }).exec();
-    if (deletedCount === 0) throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    if (deletedCount === 0) {
+      throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    }
     await this.userService.delBinFromUser(requestor._id, foundBin._id);
   }
 
@@ -63,7 +66,9 @@ export class BinService {
     const foundBin = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Update, foundBin);
     const updatedBin = await this.binModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
-    if (!updatedBin) throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    if (!updatedBin) {
+      throw new NotFoundException(BIN_NOT_FOUND_ERROR);
+    }
     return updatedBin;
   }
 }

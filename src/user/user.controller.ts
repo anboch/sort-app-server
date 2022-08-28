@@ -38,7 +38,9 @@ export class UserController {
     @Param() params: ParamId,
     @Body() dto: UpdateUserDto
   ): Promise<UserModel> {
-    if (Object.keys(dto).length === 0) throw new BadRequestException(NO_UPDATE_DATA);
+    if (Object.keys(dto).length === 0) {
+      throw new BadRequestException(NO_UPDATE_DATA);
+    }
     return this.userService.updateById(params.id, dto, requestor);
   }
 }

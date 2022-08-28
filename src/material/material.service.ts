@@ -23,7 +23,9 @@ export class MaterialService {
 
   async findById(id: string): Promise<MaterialModel> {
     const material = await this.materialModel.findById(id).exec();
-    if (!material) throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    if (!material) {
+      throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
+    }
     return material;
   }
 
