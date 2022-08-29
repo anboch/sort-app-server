@@ -16,6 +16,7 @@ export enum Weekdays {
   Sunday,
 }
 
+@Schema({ _id: false })
 class DailySchedule {
   @Prop({ enum: Weekdays })
   day: Weekdays;
@@ -24,6 +25,7 @@ class DailySchedule {
   periods: [{ start: string; end: string }];
 }
 
+@Schema({ _id: false })
 class OpeningHours {
   @Prop({ required: true })
   dayAndNight: boolean;
@@ -32,6 +34,7 @@ class OpeningHours {
   weekSchedule: DailySchedule[];
 }
 
+@Schema({ _id: false })
 class Contacts {
   @Prop()
   site: string;

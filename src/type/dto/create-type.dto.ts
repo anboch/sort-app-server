@@ -1,11 +1,21 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsArray, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
+class WayDto {
+  @IsMongoId()
+  recyclePointID: string;
+
+  @IsArray()
+  @IsMongoId({ each: true })
+  rules: string[];
+}
 export class CreateTypeDto {
   @IsString()
   title: string;
 
   @IsArray()
-  @IsMongoId({ each: true })
-  recyclePointIDs: string[];
+  @ValidateNested({ each: true })
+  @ArrayMinSize(1)
+  @Type(() => WayDto)
+  ways: WayDto;
 }

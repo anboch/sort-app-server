@@ -3,14 +3,14 @@ import mongoose, { Document } from 'mongoose';
 import { mongoId } from '../common/types';
 import { collectionNames } from '../configs/mongo.config';
 
-export type CategoryDocument = CategoryModel & Document;
+export type RuleDocument = RuleModel & Document;
 
-@Schema({ collection: collectionNames.CATEGORY })
-export class CategoryModel {
+@Schema({ collection: collectionNames.RULE })
+export class RuleModel {
   _id: mongoId;
 
   @Prop({ required: true, unique: true })
-  title: string;
+  description: string;
 }
 
-export const CategorySchema = SchemaFactory.createForClass(CategoryModel);
+export const RuleSchema = SchemaFactory.createForClass(RuleModel);

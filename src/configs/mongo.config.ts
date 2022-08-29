@@ -26,6 +26,4 @@ export const collectionNames = {
   USER: 'users',
   RECYCLE_POINT: 'recyclePoints',
   BIN: 'bins',
-  CATEGORY: 'categories',
-  AUTH: 'auth',
-};
+  RULE: 'rules',

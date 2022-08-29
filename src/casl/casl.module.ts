@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BinModel, BinSchema } from '../bin/bin.model';
-import { CategoryModel, CategorySchema } from '../category/category.model';
+import { RuleModel, RuleSchema } from '../rule/rule.model';
 import { TagModel, TagSchema } from '../tag/tag.model';
 import { MaterialModel, MaterialSchema } from '../material/material.model';
 import { RecyclePointModel, RecyclePointSchema } from '../recycle-point/recycle-point.model';
@@ -18,7 +18,7 @@ import { AbilityFactory } from './casl-ability.factory';
       { name: RecyclePointModel.name, schema: RecyclePointSchema },
       { name: MaterialModel.name, schema: MaterialSchema },
       { name: TagModel.name, schema: TagSchema },
-      { name: CategoryModel.name, schema: CategorySchema },
+      { name: RuleModel.name, schema: RuleSchema },
       { name: BinModel.name, schema: BinSchema },
     ]),
   ],

@@ -11,7 +11,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { BinModel, BinDocument } from '../bin/bin.model';
-import { CategoryModel } from '../category/category.model';
+import { RuleModel } from '../rule/rule.model';
 import { TagModel } from '../tag/tag.model';
 import { MaterialModel } from '../material/material.model';
 import { RecyclePointModel } from '../recycle-point/recycle-point.model';
@@ -34,7 +34,7 @@ export type Subjects =
       | typeof RecyclePointModel
       | typeof MaterialModel
       | typeof TagModel
-      | typeof CategoryModel
+      | typeof RuleModel
       | typeof BinModel
       | Model<BinDocument>
     >
@@ -73,7 +73,9 @@ export class AbilityFactory {
     try {
       ForbiddenError.from(ability).throwUnlessCan(action, subject);
     } catch (err) {
-      if (err instanceof ForbiddenError) throw new ForbiddenException(err.message);
+      if (err instanceof ForbiddenError) {
+        throw new ForbiddenException(err.message);
+      }
     }
   }
 }

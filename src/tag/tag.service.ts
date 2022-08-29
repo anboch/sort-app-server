@@ -12,4 +12,8 @@ export class TagService {
     const createdModel = new this.tagModel(createTagDto);
     return createdModel.save();
   }
+
+  async findAll(): Promise<TagModel[]> {
+    return this.tagModel.find().exec();
+  }
 }

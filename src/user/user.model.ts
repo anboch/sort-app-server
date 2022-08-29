@@ -8,6 +8,7 @@ import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 
 export type UserDocument = UserModel & Document;
 
+@Schema({ _id: false })
 class City {
   @Prop()
   coordinates: Coordinates;

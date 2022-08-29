@@ -10,7 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConfig } from './configs/mongo.config';
 import { RecyclePointModule } from './recycle-point/recycle-point.module';
 import { TagModule } from './tag/tag.module';
-import { CategoryModule } from './category/category.module';
+import { RuleModule } from './rule/rule.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { CaslModule } from './casl/casl.module';
@@ -31,7 +31,7 @@ import { CaslModule } from './casl/casl.module';
     UserModule,
     RecyclePointModule,
     TagModule,
-    CategoryModule,
+    RuleModule,
     MailModule,
     CaslModule,
   ],

@@ -23,10 +23,6 @@ export class CreateMaterialDto {
   @IsString({ each: true })
   images?: string[];
 
-  @IsMongoId()
-  // TODO maybe change type string to mongoId
-  categoryID: string;
-
   @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
