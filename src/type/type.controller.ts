@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { CheckAbilities } from '../casl/casl-abilities.decorator';
 import { AbilityGuard } from '../casl/casl-abilities.guard';
 import { Action } from '../casl/casl-ability.factory';
@@ -8,7 +8,7 @@ import { TypeModel } from './type.model';
 import { TypeService } from './type.service';
 
 @Controller('type')
-@UseGuards(JwtAuthGuard, AbilityGuard)
+@UseGuards(AccessTokenGuard, AbilityGuard)
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 

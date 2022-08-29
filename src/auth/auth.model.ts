@@ -1,25 +1,45 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { mongoId } from '../common/types';
 import { collectionNames } from '../configs/mongo.config';
+import { UserModel } from '../user/user.model';
 
-export type AuthDocument = AuthModel & Document;
+// todo from config
+const JWT_REFRESH_EXPIRES_IN_sec = 60 * 60 * 24 * 180;
 
-// TODO to env
-const NEXT_CONFIRM_LINK_DELAY_SEC = 60 * 5;
-
-@Schema({ collection: collectionNames.AUTH })
-export class AuthModel {
+// Confirm
+export type AuthConfirmDocument = AuthConfirmModel & Document;
+@Schema({ collection: collectionNames.AUTH_CONFIRM })
+export class AuthConfirmModel {
   _id: mongoId;
+
+  @Prop()
+  codeHash: string;
+
+  @Prop({ min: Date.now })
+  createdAt: number;
 
   @Prop({ unique: true })
   email: string;
+}
 
-  @Prop()
-  confirmCode: string;
+export const AuthConfirmSchema = SchemaFactory.createForClass(AuthConfirmModel);
 
-  @Prop({ type: Date, expires: NEXT_CONFIRM_LINK_DELAY_SEC, default: Date.now })
+// Session
+export type AuthSessionDocument = AuthSessionModel & Document;
+@Schema({ collection: collectionNames.AUTH_SESSION })
+export class AuthSessionModel {
+  _id: mongoId;
+
+  // todo add index
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: collectionNames.USER })
+  userID: mongoId | UserModel;
+
+  @Prop({ required: true })
+  refreshTokenHash: string;
+
+  @Prop({ type: Date, expires: JWT_REFRESH_EXPIRES_IN_sec, default: Date.now })
   createdAt: Date;
 }
 
-export const AuthSchema = SchemaFactory.createForClass(AuthModel);
+export const AuthSessionSchema = SchemaFactory.createForClass(AuthSessionModel);

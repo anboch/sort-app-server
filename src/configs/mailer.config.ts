@@ -2,18 +2,21 @@ import { MailerOptions } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import { IEnvironmentVariables } from '../common/types';
 
-export const getMailerConfig = async (config: ConfigService): Promise<MailerOptions> => ({
+export const getMailerConfig = async (
+  configService: ConfigService<IEnvironmentVariables>
+): Promise<MailerOptions> => ({
   transport: {
-    host: config.get('MAIL_HOST'),
+    host: configService.get('MAIL_HOST', { infer: true }),
     secure: false,
     auth: {
-      user: config.get('MAIL_USER'),
-      pass: config.get('MAIL_PASSWORD'),
+      user: configService.get('MAIL_USER', { infer: true }),
+      pass: configService.get('MAIL_PASSWORD', { infer: true }),
     },
   },
   defaults: {
-    from: `"No Reply" <${config.get('MAIL_FROM')}>`,
+    from: `"No Reply" <${configService.get('MAIL_FROM', { infer: true })}>`,
   },
   template: {
     dir: join(__dirname, '../mail/templates'),

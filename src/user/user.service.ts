@@ -11,7 +11,6 @@ import { UserModel, UserDocument } from './user.model';
 import { BinDocument, BinModel } from '../bin/bin.model';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { AbilityFactory, Action } from '../casl/casl-ability.factory';
-import { BinService } from '../bin/bin.service';
 import { mongoId } from '../common/types';
 
 @Injectable()
@@ -38,8 +37,10 @@ export class UserService {
   }
 
   async anonFindById(_id: string): Promise<UserModel> {
-    const foundUser = await this.userModel.findOne({ _id }).exec();
-    if (!foundUser) throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    const foundUser = await this.userModel.findById(_id).exec();
+    if (!foundUser) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
     return foundUser;
   }
 

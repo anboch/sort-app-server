@@ -8,7 +8,7 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { ParamId } from '../common/types';
 import { Requestor } from '../decorators/user-id.decorator';
@@ -18,7 +18,7 @@ import { UserModel } from './user.model';
 import { UserService } from './user.service';
 
 @Controller('user')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AccessTokenGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

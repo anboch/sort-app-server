@@ -16,14 +16,14 @@ import { UpdateBinDto } from './dto/update-bin.dto';
 import { NO_BIN_UPDATE_DATA } from './bin.constants';
 import { ParamId } from '../common/types';
 import { Action } from '../casl/casl-ability.factory';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { CheckAbilities } from '../casl/casl-abilities.decorator';
 import { AbilityGuard } from '../casl/casl-abilities.guard';
 import { Requestor } from '../decorators/user-id.decorator';
+import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 
 @Controller('bin')
-@UseGuards(JwtAuthGuard, AbilityGuard)
+@UseGuards(AccessTokenGuard, AbilityGuard)
 export class BinController {
   constructor(private readonly binService: BinService) {}
 

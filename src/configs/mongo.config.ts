@@ -1,23 +1,24 @@
 import { ConfigService } from '@nestjs/config';
 import { MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import { IEnvironmentVariables } from '../common/types';
 
 export const getMongoConfig = async (
-  config: ConfigService
+  config: ConfigService<IEnvironmentVariables>
 ): Promise<MongooseModuleFactoryOptions> => ({
   uri: getMongoURI(config),
 });
 
-const getMongoURI = (config: ConfigService): string =>
+const getMongoURI = (config: ConfigService<IEnvironmentVariables>): string =>
   'mongodb://' +
-  config.get('MONGO_LOGIN') +
+  config.get('MONGO_LOGIN', { infer: true }) +
   ':' +
-  config.get('MONGO_PASSWORD') +
+  config.get('MONGO_PASSWORD', { infer: true }) +
   '@' +
-  config.get('MONGO_HOST') +
+  config.get('MONGO_HOST', { infer: true }) +
   ':' +
-  config.get('MONGO_PORT') +
+  config.get('MONGO_PORT', { infer: true }) +
   '/' +
-  config.get('MONGO_AUTHDATABASE');
+  config.get('MONGO_AUTHDATABASE', { infer: true });
 
 export const collectionNames = {
   MATERIAL: 'materials',
@@ -27,3 +28,6 @@ export const collectionNames = {
   RECYCLE_POINT: 'recyclePoints',
   BIN: 'bins',
   RULE: 'rules',
+  AUTH_CONFIRM: 'authConfirms',
+  AUTH_SESSION: 'authSessions',
+} as const;

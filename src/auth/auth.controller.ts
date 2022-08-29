@@ -1,8 +1,11 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
-import { ALREADY_REQUESTED_ERROR, CODE_EXPIRED, WRONG_CODE } from './auth.constants';
-import { AuthService } from './auth.service';
+import { Body, Controller, Get, HttpCode, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
+import { Requestor } from '../decorators/user-id.decorator';
+import { AuthService, IJWTs } from './auth.service';
 import { AuthEmailDto } from './dto/authEmail.dto';
 import { ConfirmDto } from './dto/confirm.dto';
+import { RefreshTokenGuard } from './guards/refreshToken.guard';
+import { IJwtRefreshPayload } from './interfaces/jwt-payload.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -11,19 +14,34 @@ export class AuthController {
   @HttpCode(200)
   @Post('request')
   async request(@Body() { email }: AuthEmailDto): Promise<void> {
-    const authRequest = await this.authService.find(email);
-    if (authRequest) throw new BadRequestException(ALREADY_REQUESTED_ERROR);
     await this.authService.saveAndSendConfirmCode(email);
   }
 
   @HttpCode(200)
   @Get('confirm')
-  async confirm(@Query() query: ConfirmDto): Promise<{ access_token: string }> {
-    const authRequest = await this.authService.find(query.email);
-    if (!authRequest) throw new BadRequestException(CODE_EXPIRED);
-    if (query.confirmCode !== authRequest.confirmCode) {
-      throw new BadRequestException(WRONG_CODE);
-    }
-    return this.authService.login(query.email);
+  async confirm(
+    @Query() query: ConfirmDto,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<Pick<IJWTs, 'access_token'>> {
+    return this.authService.confirmAndLogin(query, response);
+  }
+
+  @UseGuards(RefreshTokenGuard)
+  @Get('refresh')
+  async refreshTokens(
+    @Requestor() requestor: IJwtRefreshPayload,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<Pick<IJWTs, 'access_token'>> {
+    await this.authService.removeSessionEntry(requestor.sessionId);
+    return this.authService.login(requestor._id, response);
+  }
+
+  @UseGuards(RefreshTokenGuard)
+  @Get('logout')
+  async logout(
+    @Requestor() requestor: IJwtRefreshPayload,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<void> {
+    await this.authService.logout(requestor.sessionId, response);
   }
 }

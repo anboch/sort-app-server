@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MongoExceptionFilter } from './common/mongo-exception.filter';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap(): Promise<void> {
   const PORT = process.env.PORT || 5000;
@@ -15,6 +16,8 @@ async function bootstrap(): Promise<void> {
   );
   app.useGlobalFilters(new MongoExceptionFilter());
   app.setGlobalPrefix('api');
+  app.enableCors();
+  app.use(cookieParser());
   await app.listen(PORT);
 }
 bootstrap();

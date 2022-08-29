@@ -1,27 +1,31 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { getJWTConfig } from '../configs/jwt.config';
 import { MailService } from '../mail/mail.service';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
-import { AuthModel, AuthSchema } from './auth.model';
+import {
+  AuthConfirmModel,
+  AuthConfirmSchema,
+  AuthSessionModel,
+  AuthSessionSchema,
+} from './auth.model';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { AccessTokenStrategy } from './strategies/accessToken.strategy';
+import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 
 @Module({
   controllers: [AuthController],
   imports: [
     UserModule,
-    MongooseModule.forFeature([{ name: AuthModel.name, schema: AuthSchema }]),
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: getJWTConfig,
-    }),
+    MongooseModule.forFeature([
+      { name: AuthConfirmModel.name, schema: AuthConfirmSchema },
+      { name: AuthSessionModel.name, schema: AuthSessionSchema },
+    ]),
+    JwtModule.register({}),
     PassportModule,
   ],
-  providers: [AuthService, JwtStrategy, MailService],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy, MailService],
 })
 export class AuthModule {}
