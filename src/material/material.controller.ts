@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { MaterialModel } from './material.model';
-import { MaterialService, SearchList } from './material.service';
+import { MaterialService } from './material.service';
 import { ParamId } from '../common/types';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CheckAbilities } from '../casl/casl-abilities.decorator';
@@ -22,10 +22,5 @@ export class MaterialController {
   @Get('/by-id/:id')
   async getById(@Param() params: ParamId): Promise<MaterialModel> {
     return this.materialService.findById(params.id);
-  }
-
-  @Get('searchList')
-  async searchList(): Promise<SearchList> {
-    return this.materialService.getSearchList();
   }
 }
