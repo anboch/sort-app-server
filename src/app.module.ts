@@ -14,6 +14,7 @@ import { RuleModule } from './rule/rule.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { CaslModule } from './casl/casl.module';
+import { RuleSetModule } from './rule-set/rule-set.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CaslModule } from './casl/casl.module';
     RuleModule,
     MailModule,
     CaslModule,
+    RuleSetModule,
   ],
   controllers: [AppController],
   providers: [AppService],
