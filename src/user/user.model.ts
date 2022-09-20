@@ -14,7 +14,7 @@ class City {
   coordinates: Coordinates;
 
   @Prop()
-  name: string;
+  name?: string;
 }
 
 export enum Role {
@@ -32,21 +32,21 @@ export class UserModel {
   email: string;
 
   @Prop()
-  name: string;
+  name?: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.BIN }] })
-  binIDs: mongoId[] | BinModel[];
+  binIDs?: mongoId[] | BinModel[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RECYCLE_POINT }],
   })
-  recyclePointIDs: mongoId[] | RecyclePointModel[];
+  recyclePointIDs?: mongoId[] | RecyclePointModel[];
 
   @Prop()
-  position: Position;
+  position?: Position;
 
   @Prop()
-  city: City;
+  city?: City;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

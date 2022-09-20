@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Requestor } from '../decorators/user-id.decorator';
-import { AuthService, IJWTs } from './auth.service';
+import { AuthService, IConfirmRequestInfo, IJWTs } from './auth.service';
 import { AuthEmailDto } from './dto/authEmail.dto';
 import { ConfirmDto } from './dto/confirm.dto';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
@@ -13,17 +13,18 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('request')
-  async request(@Body() { email }: AuthEmailDto): Promise<void> {
-    await this.authService.saveAndSendConfirmCode(email);
+  async request(@Body() { email }: AuthEmailDto): Promise<IConfirmRequestInfo> {
+    return this.authService.saveAndSendConfirmCode(email);
   }
 
   @HttpCode(200)
-  @Get('confirm')
+  @Post('confirm')
   async confirm(
-    @Query() query: ConfirmDto,
+    @Body() body: ConfirmDto,
     @Res({ passthrough: true }) response: Response
   ): Promise<Pick<IJWTs, 'access_token'>> {
-    return this.authService.confirmAndLogin(query, response);
+    console.log('body:', body);
+    return this.authService.confirmAndLogin(body, response);
   }
 
   @UseGuards(RefreshTokenGuard)

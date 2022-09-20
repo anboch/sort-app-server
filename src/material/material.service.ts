@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RuleSetModel } from '../rule-set/rule-set.model';
 import { RuleModel } from '../rule/rule.model';
 import { TagModel } from '../tag/tag.model';
 import { TypeModel } from '../type/type.model';
@@ -64,11 +65,16 @@ export class MaterialService {
           path: 'typeIDs',
           model: TypeModel.name,
           populate: {
-            path: 'ways.ruleIDs',
-            model: RuleModel.name,
+            path: 'ruleSetIDs',
+            model: RuleSetModel.name,
+            populate: {
+              path: 'ruleIDs',
+              model: RuleModel.name,
+            },
           },
         },
-      ]);
+      ])
+      .exec();
     if (!materialList) {
       throw new NotFoundException(MATERIAL_NOT_FOUND_ERROR);
     }
@@ -77,15 +83,18 @@ export class MaterialService {
     // TODO move the function to a separate place!?
     function sortRulesFromTypes(typeIDs: MaterialModel['typeIDs']): IRuleLists {
       const ruleCash: IRuleCash = {};
-      let numberOfRPs = 0;
+      let numberOfRuleSets = 0;
 
       for (const type of typeIDs) {
-        if (!('ways' in type)) {
+        if (!('ruleSetIDs' in type)) {
           continue;
         }
-        for (const way of type.ways) {
-          numberOfRPs += 1;
-          for (const rule of way.ruleIDs) {
+        for (const ruleSet of type.ruleSetIDs) {
+          if (!('ruleIDs' in ruleSet)) {
+            continue;
+          }
+          numberOfRuleSets += 1;
+          for (const rule of ruleSet.ruleIDs) {
             if (!('description' in rule) || !('_id' in rule)) {
               continue;
             }
@@ -105,8 +114,8 @@ export class MaterialService {
       const allRules = Object.values(ruleCash).sort((a, b) => b.numberOfRef - a.numberOfRef);
 
       return {
-        generalRules: allRules.filter((rule) => rule.numberOfRef >= numberOfRPs),
-        localRules: allRules.filter((rule) => rule.numberOfRef < numberOfRPs),
+        generalRules: allRules.filter((rule) => rule.numberOfRef >= numberOfRuleSets),
+        localRules: allRules.filter((rule) => rule.numberOfRef < numberOfRuleSets),
       };
     }
 

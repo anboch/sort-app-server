@@ -5,6 +5,7 @@ import { MongoExceptionFilter } from './common/mongo-exception.filter';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap(): Promise<void> {
+  //  todo correct port in env
   const PORT = process.env.PORT || 5000;
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -16,7 +17,8 @@ async function bootstrap(): Promise<void> {
   );
   app.useGlobalFilters(new MongoExceptionFilter());
   app.setGlobalPrefix('api');
-  app.enableCors();
+  // todo set right cors options
+  app.enableCors({ origin: process.env.SERVER_URL, credentials: true });
   app.use(cookieParser());
   await app.listen(PORT);
 }

@@ -48,7 +48,8 @@ export class BinService {
           path: 'typeID',
           model: TypeModel.name,
         },
-      ]);
+      ])
+      .exec();
   }
 
   async deleteById(_id: string, requestor: IRequestor): Promise<void> {
@@ -61,11 +62,16 @@ export class BinService {
     await this.userService.delBinFromUser(requestor._id, foundBin._id);
   }
 
-  async updateById(_id: string, dto: UpdateBinDto, requestor: IRequestor): Promise<BinModel> {
+  async updateById(
+    { _id, ...propsToUpdate }: UpdateBinDto,
+    requestor: IRequestor
+  ): Promise<BinModel> {
     // TODO check typeId and preferRPIDs in collections
     const foundBin = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Update, foundBin);
-    const updatedBin = await this.binModel.findByIdAndUpdate(_id, dto, { new: true }).exec();
+    const updatedBin = await this.binModel
+      .findByIdAndUpdate(_id, propsToUpdate, { new: true })
+      .exec();
     if (!updatedBin) {
       throw new NotFoundException(BIN_NOT_FOUND_ERROR);
     }

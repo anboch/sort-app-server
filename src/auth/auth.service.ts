@@ -24,6 +24,11 @@ export interface IJWTs {
   refresh_token: string;
 }
 
+export interface IConfirmRequestInfo {
+  email: string;
+  codeExpirationTime: number;
+}
+
 // todo from config
 const JWT_REFRESH_EXPIRES_IN_sec = 60 * 60 * 24 * 180;
 // TODO set cookie flags (secure: process.env.NODE_ENV !== "development")(and path:)
@@ -44,12 +49,13 @@ export class AuthService {
     @InjectModel(AuthSessionModel.name) private authSessionModel: Model<AuthSessionDocument>
   ) {}
 
-  isConfirmCodeExpired(date = 0): Boolean {
-    const minConfirmDelay =
-      Number(this.configService.get('NEXT_CONFIRM_DELAY_SEC', { infer: true })) * 1000;
-    const lastConfirmReqDate = date;
+  isConfirmCodeExpired(lastConfirmReqDate = 0): Boolean {
     const currentConfirmDelay = Date.now() - lastConfirmReqDate;
-    return currentConfirmDelay > minConfirmDelay;
+    return currentConfirmDelay > this.getMinConfirmDelay();
+  }
+
+  getMinConfirmDelay(): number {
+    return Number(this.configService.get('MIN_CONFIRM_DELAY_SEC', { infer: true })) * 1000;
   }
 
   async saveConfirmCode(email: string, codeHash: string): Promise<AuthConfirmModel> {
@@ -68,24 +74,45 @@ export class AuthService {
     // TODO catch potential error (deletedCount === 0)
   }
 
-  async saveAndSendConfirmCode(email: string): Promise<void> {
+  async saveAndSendConfirmCode(email: string): Promise<IConfirmRequestInfo> {
+    // const delay = (time: number) => {
+    //   return new Promise((res) => {
+    //     setTimeout(res, time);
+    //   });
+    // };
+    // console.log('delay1:', new Date());
+    // await delay(3000);
+    // console.log('delay2:', new Date());
     const confirmRequest = await this.authConfirmModel.findOne({ email }).exec();
     if (confirmRequest && !this.isConfirmCodeExpired(confirmRequest?.createdAt)) {
-      // todo add time for next request
-      throw new BadRequestException(ALREADY_REQUESTED_ERROR);
+      return { email, codeExpirationTime: confirmRequest?.createdAt + this.getMinConfirmDelay() };
     }
-    const confirmCode = Math.floor(Math.random() * 1000000).toString();
+    if (confirmRequest && this.isConfirmCodeExpired(confirmRequest?.createdAt)) {
+      await this.removeConfirmEntry(email);
+    }
+    const confirmCode = Math.floor(100000 + Math.random() * 900000).toString();
     const codeHash = await argon2.hash(confirmCode);
     // TODO catch potential error
-    await this.saveConfirmCode(email, codeHash);
+    const newConfirmRequest = await this.saveConfirmCode(email, codeHash);
     // TODO catch potential error
     await this.mailService.sendConfirmCode(email, confirmCode);
+
+    return { email, codeExpirationTime: newConfirmRequest?.createdAt + this.getMinConfirmDelay() };
   }
 
   async confirmAndLogin(
     { email, confirmCode }: ConfirmDto,
     response: Response
   ): Promise<Pick<IJWTs, 'access_token'>> {
+    // const delay = (time: number) => {
+    //   return new Promise((res) => {
+    //     setTimeout(res, time);
+    //   });
+    // };
+    // console.log('delay1:', new Date());
+    // await delay(3000);
+    // console.log('delay2:', new Date());
+
     const confirmRequest = await this.authConfirmModel.findOne({ email }).exec();
     // TODO add error when the code just don't exist
     if (this.isConfirmCodeExpired(confirmRequest?.createdAt)) {

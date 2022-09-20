@@ -28,15 +28,15 @@ export class UpdateUserDto {
   // @IsMongoId({ each: true })
   // recyclePointIDs?: string[];
 
-  @IsOptional()
-  @IsObject()
-  @ValidateNested()
-  @Type(() => PositionDto)
-  position?: PositionDto;
+  // @IsOptional()
+  // @IsObject()
+  // @ValidateNested()
+  // @Type(() => PositionDto)
+  // position?: PositionDto;
 
-  @IsOptional()
-  @IsObject()
-  @ValidateNested()
-  @Type(() => CityDto)
-  city?: CityDto;
+  // @IsOptional()
+  // @IsObject()
+  // @ValidateNested()
+  // @Type(() => CityDto)
+  // city?: CityDto;
 }

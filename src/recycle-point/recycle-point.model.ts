@@ -31,7 +31,7 @@ class OpeningHours {
   dayAndNight: boolean;
 
   @Prop()
-  weekSchedule: DailySchedule[];
+  weekSchedule?: DailySchedule[];
 }
 
 @Schema({ _id: false })
@@ -48,13 +48,13 @@ export class RecyclePointModel {
   title: string;
 
   @Prop()
-  description: string;
+  description?: string;
 
   @Prop()
-  openingHours: OpeningHours;
+  openingHours?: OpeningHours;
 
   @Prop()
-  contacts: Contacts;
+  contacts?: Contacts;
 
   @Prop()
   position: Position;

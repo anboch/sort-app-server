@@ -22,9 +22,10 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':id')
-  async get(@Requestor() requestor: IRequestor, @Param() params: ParamId): Promise<UserModel> {
-    return this.userService.findById(params.id, requestor);
+  @Get()
+  async get(@Requestor() requestor: IRequestor): Promise<UserModel> {
+    // return this.userService.findPopulated(requestor._id, requestor);
+    return this.userService.findById(requestor._id, requestor);
   }
 
   @Delete(':id')
@@ -32,15 +33,16 @@ export class UserController {
     return this.userService.deleteById(params.id, requestor);
   }
 
-  @Patch(':id')
+  @Patch('')
   async patch(
     @Requestor() requestor: IRequestor,
-    @Param() params: ParamId,
+    // @Param() params: ParamId,
     @Body() dto: UpdateUserDto
   ): Promise<UserModel> {
     if (Object.keys(dto).length === 0) {
       throw new BadRequestException(NO_UPDATE_DATA);
     }
-    return this.userService.updateById(params.id, dto, requestor);
+    return this.userService.updateById(requestor._id, dto, requestor);
+    // return this.userService.updateById(params.id, dto, requestor);
   }
 }

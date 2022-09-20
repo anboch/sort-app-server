@@ -39,18 +39,14 @@ export class BinController {
     return this.binService.getAllUserBins(requestor);
   }
 
-  @Patch(':id')
+  @Patch('')
   @CheckAbilities({ action: Action.Update, subject: BinModel })
-  async patch(
-    @Requestor() requestor: IRequestor,
-    @Body() dto: UpdateBinDto,
-    @Param() params: ParamId
-  ): Promise<BinModel> {
+  async patch(@Requestor() requestor: IRequestor, @Body() dto: UpdateBinDto): Promise<BinModel> {
     // TODO check userId.binIds include binId
     if (Object.keys(dto).length === 0) {
       throw new BadRequestException(NO_BIN_UPDATE_DATA);
     }
-    return this.binService.updateById(params.id, dto, requestor);
+    return this.binService.updateById(dto, requestor);
   }
 
   @Delete(':id')

@@ -11,15 +11,17 @@ export class MailService {
   ) {}
 
   async sendConfirmCode(email: string, confirmCode: string): Promise<void> {
-    const host = this.configService.get('HOST', { infer: true });
-    const url = `${host}/api/auth/confirm?email=${email}&confirmCode=${confirmCode}`;
+    console.log('sendConfirmCode email:', email);
+    console.log('confirmCode:', confirmCode);
+    // const host = this.configService.get('CLIENT_URL', { infer: true });
+    // const url = `${host}/api/auth/confirm?email=${email}&confirmCode=${confirmCode}`;
 
     await this.mailerService.sendMail({
       to: email,
       subject: 'Welcome to RB App! Confirm your Email',
       template: 'confirmation',
       context: {
-        url,
+        confirmCode,
       },
     });
   }

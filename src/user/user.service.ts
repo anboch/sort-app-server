@@ -12,6 +12,8 @@ import { BinDocument, BinModel } from '../bin/bin.model';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { AbilityFactory, Action } from '../casl/casl-ability.factory';
 import { mongoId } from '../common/types';
+import { TypeModel } from '../type/type.model';
+import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 
 @Injectable()
 export class UserService {
@@ -36,6 +38,39 @@ export class UserService {
     return foundUser;
   }
 
+  // todo freeze
+  async findPopulated(_id: string, requestor: IRequestor): Promise<UserModel> {
+    const foundUser = await this.anonFindById(_id);
+    await this.abilityFactory.checkUserAbility(requestor, Action.Read, foundUser);
+    const populatedUser = await this.anonFindPopulated(_id);
+    return populatedUser;
+  }
+
+  // todo freeze
+  async anonFindPopulated(_id: string): Promise<UserModel> {
+    const foundUser = await this.userModel
+      .findById(_id)
+      .populate([
+        {
+          path: 'binIDs',
+          model: BinModel.name,
+          populate: {
+            path: 'typeID',
+            model: TypeModel.name,
+          },
+        },
+        {
+          path: 'recyclePointIDs',
+          model: RecyclePointModel.name,
+        },
+      ])
+      .exec();
+    if (!foundUser) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+    return foundUser;
+  }
+
   async anonFindById(_id: string): Promise<UserModel> {
     const foundUser = await this.userModel.findById(_id).exec();
     if (!foundUser) {
@@ -47,8 +82,10 @@ export class UserService {
   async deleteById(_id: string, requestor: IRequestor): Promise<void> {
     const foundUser = await this.anonFindById(_id);
     await this.abilityFactory.checkUserAbility(requestor, Action.Delete, foundUser);
-    for (const _id of foundUser.binIDs) {
-      await this.binModel.deleteOne({ _id }).exec();
+    if (foundUser.binIDs) {
+      for (const _id of foundUser.binIDs) {
+        await this.binModel.deleteOne({ _id }).exec();
+      }
     }
     const { deletedCount } = await this.userModel.deleteOne({ _id }).exec();
     if (deletedCount === 0) {

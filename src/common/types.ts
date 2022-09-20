@@ -14,7 +14,7 @@ export interface IEnvironmentVariables {
   MONGO_HOST: string;
   MONGO_PORT: number;
   MONGO_AUTHDATABASE: string;
-  NEXT_CONFIRM_DELAY_SEC: number;
+  MIN_CONFIRM_DELAY_SEC: number;
   JWT_ACCESS_SECRET: string;
   JWT_ACCESS_EXPIRES_IN: string;
   JWT_REFRESH_SECRET: string;
@@ -23,7 +23,8 @@ export interface IEnvironmentVariables {
   MAIL_USER: string;
   MAIL_PASSWORD: string;
   MAIL_FROM: string;
-  HOST: string;
+  CLIENT_URL: string;
+  SERVER_URL: string;
 }
 
 export const cookieNames = {
