@@ -9,16 +9,13 @@ export const getMongoConfig = async (
 });
 
 const getMongoURI = (config: ConfigService<IEnvironmentVariables>): string =>
-  'mongodb://' +
+  'mongodb+srv://' +
   config.get('MONGO_LOGIN', { infer: true }) +
   ':' +
   config.get('MONGO_PASSWORD', { infer: true }) +
   '@' +
   config.get('MONGO_HOST', { infer: true }) +
-  ':' +
-  config.get('MONGO_PORT', { infer: true }) +
-  '/' +
-  config.get('MONGO_AUTHDATABASE', { infer: true });
+  '/?retryWrites=true&w=majority';
 
 export const collectionNames = {
   MATERIAL: 'materials',
