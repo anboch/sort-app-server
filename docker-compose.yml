@@ -1,19 +1,12 @@
-name: Publish Docker
-
-on:
-  push:
-    branches: [master]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Publish to registy
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          registry: docker.pkg.github.com
-          name: ТУТ ВАШ РЕПОЗИТОРИЙ
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "develop"
+version: '3'
+services:
+  rb.api:
+    # build: ./
+    # command: npm run start
+    image: ghcr.io/anboch/recyclebin-api:develop
+    container_name: rb-api
+    restart: always 
+    ports:
+      - 5000:5000
+    volumes:
+      - ./env:/opt/app/.env
