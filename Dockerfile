@@ -1,10 +1,13 @@
-FROM node:16.16-alpine
+FROM node:16.16-alpine as build
 WORKDIR /opt/app
 ADD *.json ./
 RUN npm install
 ADD . .
 RUN npm run build
-RUN npm prune --production
-# todo prune src
+
+FROM node:16.16-alpine
+WORKDIR /opt/app
+ADD package.json ./
+RUN npm install --only=prod
+COPY --from=build /opt/app/dist ./dist
 CMD ["node", "./dist/main.js"]
-# EXPOSE 5000
