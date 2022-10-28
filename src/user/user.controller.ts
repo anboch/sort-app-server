@@ -6,11 +6,15 @@ import {
   Get,
   Param,
   Patch,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
+import { cookieOptions } from '../auth/auth.service';
+
 import { AccessTokenGuard } from '../auth/guards/accessToken.guard';
 import { IRequestor } from '../auth/interfaces/requestor.interface';
-import { ParamId } from '../common/types';
+import { cookieNames, ParamId } from '../common/types';
 import { Requestor } from '../decorators/user-id.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NO_UPDATE_DATA, USER_NOT_FOUND_ERROR, WRONG_ID } from './user.constants';
@@ -29,8 +33,13 @@ export class UserController {
   }
 
   @Delete(':id')
-  async delete(@Requestor() requestor: IRequestor, @Param() params: ParamId): Promise<void> {
-    return this.userService.deleteById(params.id, requestor);
+  async delete(
+    @Requestor() requestor: IRequestor,
+    @Param() params: ParamId,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<void> {
+    await this.userService.deleteById(params.id, requestor);
+    response.clearCookie(cookieNames.REFRESH_TOKEN, cookieOptions);
   }
 
   @Patch('')

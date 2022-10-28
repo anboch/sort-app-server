@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
+  SESSION_NOT_DELETED_ERROR,
   USER_NOT_DELETED_ERROR,
   USER_NOT_FOUND_ERROR,
   USER_NOT_UPDATED_ERROR,
@@ -14,12 +15,14 @@ import { AbilityFactory, Action } from '../casl/casl-ability.factory';
 import { mongoId } from '../common/types';
 import { TypeModel } from '../type/type.model';
 import { RecyclePointModel } from '../recycle-point/recycle-point.model';
+import { AuthSessionDocument, AuthSessionModel } from '../auth/auth.model';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
     @InjectModel(BinModel.name) private binModel: Model<BinDocument>,
+    @InjectModel(AuthSessionModel.name) private authSessionModel: Model<AuthSessionDocument>,
     private abilityFactory: AbilityFactory
   ) {}
 
@@ -79,16 +82,27 @@ export class UserService {
     return foundUser;
   }
 
-  async deleteById(_id: string, requestor: IRequestor): Promise<void> {
-    const foundUser = await this.anonFindById(_id);
+  async deleteById(userId: string, requestor: IRequestor): Promise<void> {
+    const foundUser = await this.anonFindById(userId);
     await this.abilityFactory.checkUserAbility(requestor, Action.Delete, foundUser);
     if (foundUser.binIDs) {
-      for (const _id of foundUser.binIDs) {
-        await this.binModel.deleteOne({ _id }).exec();
+      for (const binId of foundUser.binIDs) {
+        await this.binModel.deleteOne({ _id: binId }).exec();
       }
     }
-    const { deletedCount } = await this.userModel.deleteOne({ _id }).exec();
-    if (deletedCount === 0) {
+
+    // todo to know is it ok to use models from auth module to avoid circular dependency (if import AuthService)
+    const { deletedCount: deletedSessionsCount } = await this.authSessionModel
+      .deleteMany({ userID: userId })
+      .exec();
+    if (deletedSessionsCount === 0) {
+      throw new InternalServerErrorException(SESSION_NOT_DELETED_ERROR);
+    }
+
+    const { deletedCount: deletedUsersCount } = await this.userModel
+      .deleteOne({ _id: userId })
+      .exec();
+    if (deletedUsersCount === 0) {
       throw new InternalServerErrorException(USER_NOT_DELETED_ERROR);
     }
   }

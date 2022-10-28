@@ -32,7 +32,7 @@ export interface IConfirmRequestInfo {
 // todo from config
 const JWT_REFRESH_EXPIRES_IN_sec = 60 * 60 * 24 * 180;
 // TODO set cookie flags (secure: process.env.NODE_ENV !== "development")(and path:)
-const cookieOptions = {
+export const cookieOptions = {
   // secure: true,
   httpOnly: true,
   maxAge: 1000 * JWT_REFRESH_EXPIRES_IN_sec,

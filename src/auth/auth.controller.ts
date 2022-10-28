@@ -23,7 +23,6 @@ export class AuthController {
     @Body() body: ConfirmDto,
     @Res({ passthrough: true }) response: Response
   ): Promise<Pick<IJWTs, 'access_token'>> {
-    console.log('body:', body);
     return this.authService.confirmAndLogin(body, response);
   }
 
