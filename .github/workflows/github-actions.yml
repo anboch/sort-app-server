@@ -16,4 +16,4 @@ jobs:
           name: ghcr.io/anboch/recycleBin-api
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          tags: "develop"
+          tags: "prod"
