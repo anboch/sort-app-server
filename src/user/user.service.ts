@@ -118,7 +118,9 @@ export class UserService {
   }
 
   async addBinToUser(userId: string, binId: mongoId): Promise<void> {
-    await this.userModel.updateOne({ _id: userId }, { $push: { binIDs: binId } }).exec();
+    await this.userModel
+      .updateOne({ _id: userId }, { $push: { binIDs: binId }, $inc: { binCounter: 1 } })
+      .exec();
   }
 
   async delBinFromUser(userId: string, binId: Pick<BinModel, '_id'>): Promise<void> {

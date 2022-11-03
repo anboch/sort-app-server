@@ -37,6 +37,9 @@ export class UserModel {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.BIN }] })
   binIDs?: mongoId[] | BinModel[];
 
+  @Prop()
+  binCounter?: number;
+
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RECYCLE_POINT }],
   })
