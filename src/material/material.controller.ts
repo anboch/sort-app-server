@@ -23,4 +23,9 @@ export class MaterialController {
   async getById(@Param() params: ParamId): Promise<MaterialModel> {
     return this.materialService.findById(params.id);
   }
+
+  @Get('/by-type-id/:id')
+  async getByTypeId(@Param() params: ParamId): Promise<MaterialModel[]> {
+    return this.materialService.findByTypeId(params.id);
+  }
 }

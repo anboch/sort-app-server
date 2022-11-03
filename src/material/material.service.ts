@@ -48,6 +48,24 @@ export class MaterialService {
     return material;
   }
 
+  async findByTypeId(typeId: string): Promise<MaterialModel[]> {
+    const materials = await this.materialModel
+      .find({ typeIDs: typeId })
+      .populate([
+        {
+          path: 'tagIDs',
+          model: TagModel.name,
+        },
+        {
+          path: 'similarMaterialIDs',
+          model: MaterialModel.name,
+          select: 'titles',
+        },
+      ])
+      .exec();
+    return materials;
+  }
+
   async getAllWithProps(): Promise<MaterialWithPropsItem[]> {
     const materialList = await this.materialModel
       .find({}, ['titles', 'description', 'images'])
