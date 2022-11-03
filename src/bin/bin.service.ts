@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { IRequestor } from '../auth/interfaces/requestor.interface';
 import { AbilityFactory, Action } from '../casl/casl-ability.factory';
+import { RuleSetModel } from '../rule-set/rule-set.model';
 import { TypeModel } from '../type/type.model';
 import { UserService } from '../user/user.service';
 import { BIN_NOT_FOUND_ERROR } from './bin.constants';
@@ -47,6 +48,10 @@ export class BinService {
         {
           path: 'typeID',
           model: TypeModel.name,
+        },
+        {
+          path: 'ruleSetID',
+          model: RuleSetModel.name,
         },
       ])
       .exec();
