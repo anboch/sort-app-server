@@ -9,7 +9,6 @@ import { TypeModel } from './type.model';
 import { TypeService } from './type.service';
 
 @Controller('type')
-@UseGuards(AccessTokenGuard, AbilityGuard)
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
 
@@ -19,6 +18,7 @@ export class TypeController {
   }
 
   @Post('create')
+  @UseGuards(AccessTokenGuard, AbilityGuard)
   @CheckAbilities({ action: Action.Create, subject: TypeModel })
   async create(@Body() dto: CreateTypeDto): Promise<TypeModel> {
     return this.typeService.create(dto);
