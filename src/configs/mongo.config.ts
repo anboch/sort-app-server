@@ -28,4 +28,5 @@ export const collectionNames = {
   AUTH_CONFIRM: 'authConfirms',
   AUTH_SESSION: 'authSessions',
   RULE_SET: 'ruleSets',
+  FEEDBACK: 'feedbacks',
 } as const;
