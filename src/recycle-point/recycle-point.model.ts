@@ -18,8 +18,10 @@ export enum Weekdays {
 
 @Schema({ _id: false })
 class DailySchedule {
-  @Prop({ enum: Weekdays })
-  day: Weekdays;
+  @Prop({
+    type: [{ enum: Weekdays }],
+  })
+  days: Weekdays[];
 
   @Prop()
   periods: [{ start: string; end: string }];
