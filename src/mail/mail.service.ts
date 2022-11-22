@@ -18,7 +18,7 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Welcome to RB App! Confirm your Email',
+      subject: 'Подтверждение Email',
       template: 'confirmation',
       context: {
         confirmCode,

@@ -16,7 +16,7 @@ export const getMailerConfig = async (
     },
   },
   defaults: {
-    from: `"No Reply" <${configService.get('MAIL_FROM', { infer: true })}>`,
+    from: `"В-Переработку" <${configService.get('MAIL_FROM', { infer: true })}>`,
   },
   template: {
     dir: join(__dirname, '../mail/templates'),
