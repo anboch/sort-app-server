@@ -19,7 +19,7 @@ export class TagModel {
   titles: string[];
 
   @Prop({ type: String, enum: TagGroup, required: true, default: TagGroup.NO })
-  group: TagGroup;
+  group?: TagGroup;
 }
 
 export const TagSchema = SchemaFactory.createForClass(TagModel);
