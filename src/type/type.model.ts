@@ -24,7 +24,7 @@ export class TypeModel {
 
   @Prop({
     required: true,
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RULE_SET }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: collectionNames.RULE_SET, unique: true }],
   })
   ruleSetIDs: mongoId[] | RuleSetModel[];
 }
