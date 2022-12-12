@@ -11,8 +11,6 @@ export class MailService {
   ) {}
 
   async sendConfirmCode(email: string, confirmCode: string): Promise<void> {
-    console.log('sendConfirmCode email:', email);
-    console.log('confirmCode:', confirmCode);
     // const host = this.configService.get('CLIENT_URL', { infer: true });
     // const url = `${host}/api/auth/confirm?email=${email}&confirmCode=${confirmCode}`;
 
