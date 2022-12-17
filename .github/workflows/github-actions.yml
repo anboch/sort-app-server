@@ -13,7 +13,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@v4
         with:
           registry: ghcr.io
-          name: ghcr.io/anboch/recycleBin-api
+          name: ghcr.io/anboch/sort-app-server
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: "prod"
