@@ -46,7 +46,12 @@ class OpeningHoursDto {
 
 class ContactsDto {
   @IsUrl()
-  site: string;
+  @IsOptional()
+  site?: string;
+
+  @IsUrl()
+  @IsOptional()
+  ecoTaxi?: string;
 }
 
 export class CreateRecyclePointDto {

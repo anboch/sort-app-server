@@ -39,7 +39,10 @@ class OpeningHours {
 @Schema({ _id: false })
 class Contacts {
   @Prop()
-  site: string;
+  site?: string;
+
+  @Prop()
+  ecoTaxi?: string;
 }
 
 @Schema({ collection: collectionNames.RECYCLE_POINT })
