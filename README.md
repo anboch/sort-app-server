@@ -19,6 +19,8 @@ Basic functionality:
 - MongoDB => Mongoose
 - NodeMailer
 - CASL Ability
+- JWT
+- Nginx
 ### Frontend ([repository](https://github.com/anboch/sort-app-client)) 
 
 ### CI/CD
