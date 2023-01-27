@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RecyclePointModel } from '../recycle-point/recycle-point.model';
 import { RuleSetModel } from '../rule-set/rule-set.model';
 import { RuleModel } from '../rule/rule.model';
 import { TagModel } from '../tag/tag.model';
@@ -85,10 +86,16 @@ export class MaterialService {
           populate: {
             path: 'ruleSetIDs',
             model: RuleSetModel.name,
-            populate: {
-              path: 'ruleIDs',
-              model: RuleModel.name,
-            },
+            populate: [
+              {
+                path: 'ruleIDs',
+                model: RuleModel.name,
+              },
+              {
+                path: 'recyclePointIDs',
+                model: RecyclePointModel.name,
+              },
+            ],
           },
         },
       ])
