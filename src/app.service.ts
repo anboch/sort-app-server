@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { mongoId } from './common/types';
+import { FeedbackService } from './feedback/feedback.service';
 import { MaterialService, MaterialWithPropsItem } from './material/material.service';
 import { TagGroup, TagModel } from './tag/tag.model';
 import { TagService } from './tag/tag.service';
@@ -34,7 +35,8 @@ export interface ISearchLists {
 export class AppService {
   constructor(
     private readonly materialService: MaterialService,
-    private readonly tagService: TagService
+    private readonly tagService: TagService,
+    private readonly feedbackService: FeedbackService
   ) {}
 
   async getSearchList(): Promise<ISearchLists> {
@@ -64,6 +66,8 @@ export class AppService {
       (acc, item) => ({ ...acc, [item._id.toString()]: item }),
       {}
     );
+
+    await this.feedbackService.writeRequestOfSearchList();
 
     return {
       tags,
